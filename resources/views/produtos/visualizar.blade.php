@@ -19,7 +19,6 @@
             default                 => 'bg-gray-100 text-gray-600',
         };
 
-        // Adicionar/remover um campo aqui basta — a marcação não muda.
         $campos = [
             'SKU'       => $produto->sku,
             'EAN'       => $produto->ean,

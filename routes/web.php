@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegistrarController;
+use App\Http\Controllers\DeslogarController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
@@ -55,6 +58,12 @@ Route::middleware('auth')->group(function () {
        Route::patch('/{pedido}', [PedidosController::class, 'update'])->name('pedidos.update');
        Route::delete('/{pedido}', [PedidosController::class, 'destroy'])->name('pedidos.destroy');
     });
+});
+
+Route::middleware('autenticado')->group(function () {
+    Route::post('/registrar', [RegistrarController::class, 'registrarUsuario']);
+    Route::post('/logar', [LoginController::class, 'loginUsuario']);
+    Route::post('/deslogar', [DeslogarController::class, 'deslogarUsuario']);
 });
 
 require __DIR__.'/auth.php';

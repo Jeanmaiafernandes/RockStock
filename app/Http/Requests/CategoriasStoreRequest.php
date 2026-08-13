@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Enums\StatusCategoria;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 class CategoriasStoreRequest extends FormRequest
 {
@@ -18,9 +17,8 @@ class CategoriasStoreRequest extends FormRequest
     {
         return [
             'nome'  => ['required','string','max:50', 'unique:produtos_categorias,id'],
-//            'nome' => ['required', 'string', 'max:255', Rule::unique('produto_categorias')
-//                ->ignore($this->categoria)],
-            'ativo' => ['required', 'boolean'],
+            'ativo' => [Rule::enum(StatusCategoria::class)
+                ->only([StatusCategoria::Inativo, StatusCategoria::Ativo])],
         ];
     }
 }

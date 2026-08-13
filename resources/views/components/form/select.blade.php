@@ -1,4 +1,3 @@
-{{-- form/select.blade.php --}}
 @props(['name', 'label' => null, 'value' => null, 'opcoes' => [], 'vazio' => 'Selecione...'])
 
 <x-form.field :name="$name" :label="$label" :class="$attributes->get('class')">

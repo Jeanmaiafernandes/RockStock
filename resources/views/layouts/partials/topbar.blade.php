@@ -2,7 +2,6 @@
 class="sticky top-0 z-20 flex h-16 items-center
 gap-4 border-b border-gray-200 bg-white px-4 sm:px-6">
 
-{{-- Hambúrguer (mobile) --}}
 <button type="button" @click="sidebarOpen = true"
         class="text-gray-500 hover:text-gray-700 lg:hidden">
     <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">

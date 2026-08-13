@@ -14,7 +14,7 @@ class PedidoSeeder extends Seeder
     {
         Pedido::factory(3)
             ->recycle(User::all())
-            ->hasItens(3)
+           ->hasItens(3)
             ->create();
     }
 }

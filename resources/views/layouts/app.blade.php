@@ -35,7 +35,6 @@
 
     @include('layouts.partials.sidebar')
 
-    {{-- min-w-0 é o que impede uma tabela larga de esticar o layout inteiro --}}
     <div class="flex min-w-0 flex-1 flex-col">
 
         @include('layouts.partials.topbar')

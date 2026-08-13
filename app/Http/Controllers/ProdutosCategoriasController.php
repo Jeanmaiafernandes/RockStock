@@ -28,7 +28,7 @@ class ProdutosCategoriasController extends Controller
 
         $categoria = new ProdutoCategoria();
         $categoria->nome = $dados['nome'];
-        $categoria->ativo = $request->boolean('ativo');
+        $categoria->ativo = $dados['ativo'];
         $categoria->save();
 
         return redirect()->route('categorias.index')
@@ -45,11 +45,11 @@ class ProdutosCategoriasController extends Controller
         $dados = $request->validated();
 
         $categoria->nome = $dados['nome'];
-        $categoria->ativo = $request->boolean('ativo');
+        $categoria->ativo = $dados['ativo'];
         $categoria->update();
 
         return redirect()->route('categorias.index')
-        ->with('successo', 'Categoria atualizada com sucesso!');
+        ->with('status', 'Categoria atualizada com sucesso!');
     }
 
     public function destroy(ProdutoCategoria $categoria): RedirectResponse
@@ -62,6 +62,6 @@ class ProdutosCategoriasController extends Controller
         $categoria->delete();
 
         return redirect()->route('categorias.index')
-            ->with('status', 'ProdutoCategoria removida com sucesso!');
+            ->with('status', 'Categoria removida com sucesso!');
     }
 }

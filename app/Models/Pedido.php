@@ -19,7 +19,7 @@ class Pedido extends Model
 
     public function itens(): HasMany
     {
-        return $this->hasMany(PedidoItem::class);
+        return $this->HasMany(PedidoItem::class);
     }
 
     public function user(): BelongsTo

@@ -7,7 +7,6 @@ use App\Http\Requests\ProdutosUpdateRequest;
 use App\Models\Produto;
 use App\Models\ProdutoCategoria;
 use App\Models\ProdutoStatus;
-use http\Exception;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -16,7 +15,7 @@ class ProdutosController extends Controller
     public function index(): View
     {
         $produtos = Produto::query()
-            ->with(['categoria', 'Status'])
+            ->with(['categoria', 'status'])
             ->select(['id', 'nome', 'descricao',
                 'quantidade', 'sku', 'ean', 'produto_categoria_id', 'produto_status_id'])
             ->paginate(10);
@@ -35,20 +34,23 @@ class ProdutosController extends Controller
 
     public function store(ProdutosStoreRequest $request): RedirectResponse
     {
+        $dados = $request->validated();
+
         $produto = new Produto();
-        $produto->nome = $request['nome'];
-        $produto->descricao = $request['descricao'];
-        $produto->sku  = $request['sku'];
-        $produto->ean  = $request['ean'];
-        $produto->quantidade = $request['quantidade'];
-        $produto->produto_status_id = $request['produto_status_id'];
-        $produto->produto_categoria_id = $request['produto_categoria_id'];
+        $produto->nome = $dados['nome'];
+        $produto->descricao = $dados['descricao'];
+        $produto->sku  = $dados['sku'];
+        $produto->ean  = $dados['ean'];
+        $produto->quantidade = $dados['quantidade'];
+        $produto->produto_status_id = $dados['produto_status_id'];
+        $produto->produto_categoria_id = $dados['produto_categoria_id'];
         $produto->save();
 
-        return redirect()->route('produtos.index');
+        return redirect()->route('produtos.index')
+            ->with('successo', 'Produto cadastrado com sucesso!');
     }
 
-    public function  show(Produto $produto): View
+    public function show(Produto $produto): View
     {
         $produto->load(['categoria', 'Status']);
 
@@ -69,20 +71,30 @@ class ProdutosController extends Controller
 
     public function update(ProdutosUpdateRequest $request, Produto $produto): RedirectResponse
     {
-        $produto->update($request->validated());
+        $dados = $request->validated();
 
-        return redirect()->route('produtos.index');
+        $produto->nome = $dados['nome'];
+        $produto->descricao = $dados['descricao'];
+        $produto->sku  = $dados['sku'];
+        $produto->ean  = $dados['ean'];
+        $produto->quantidade = $dados['quantidade'];
+        $produto->produto_status_id = $dados['produto_status_id'];
+        $produto->produto_categoria_id = $dados['produto_categoria_id'];
+        $produto->update();
+
+        return redirect()->route('produtos.index')
+            ->with('status', 'Produto atualizado com sucesso!');
     }
 
     public function destroy(Produto $produto): RedirectResponse
     {
         if($produto->pedidosItens()->exists()) {
             return redirect()->route('produtos.index')
-            ->with('erro', 'Não é possivel excluir: Há pedidos com este produto.');
+                ->with('erro', 'Não é possivel excluir: há pedidos vinculados');
         }
 
         $produto->delete();
-
-        return redirect()->route('produtos.index');
+        return redirect()->route('produtos.index')
+            ->with('status', 'Produto removido com sucesso!');
     }
 }

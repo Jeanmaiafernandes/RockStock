@@ -1,4 +1,3 @@
-{{-- Overlay (mobile) --}}
 <div x-show="sidebarOpen"
      x-transition:enter="transition-opacity duration-200"
      x-transition:enter-start="opacity-0"

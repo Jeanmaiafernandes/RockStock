@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProdutosStatusStoreRequest;
 use App\Http\Requests\ProdutosStatusUpdateRequest;
 use App\Models\ProdutoStatus;
-use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-#[useModel(ProdutoStatus::class)]
 class ProdutosStatusController extends Controller
 {
     public function index(): View
@@ -29,15 +27,16 @@ class ProdutosStatusController extends Controller
 
     public function store(ProdutosStatusStoreRequest $request): RedirectResponse
     {
-        $request->validated();
+        $dados = $request->validated();
 
-        $produtoStatus = new ProdutoStatus();
-        $produtoStatus->nome = $request['nome'];
-        $produtoStatus->disponivel = $request['disponivel'];
-        $produtoStatus->permite_saida = $request['permite_saida'];
-        $produtoStatus->save();
+        $statusProduto = new ProdutoStatus();
+        $statusProduto->nome = $dados['nome'];
+        $statusProduto->disponivel = $dados['disponivel'];
+        $statusProduto->permite_saida = $dados['permite_saida'];
+        $statusProduto->save();
 
-        return redirect()->route('statusProdutos.index');
+        return redirect()->route('statusProdutos.index')
+            ->with('successo', 'Produto cadastrado com sucesso!');
     }
 
     public function edit(ProdutoStatus $statusProduto): View
@@ -50,12 +49,12 @@ class ProdutosStatusController extends Controller
         $dados = $request->validated();
 
         $statusProduto->nome = $dados['nome'];
-        $statusProduto->disponivel = $request->boolean('disponivel');
-        $statusProduto->permite_saida = $request->boolean('permite_saida');
-        $statusProduto->save();
+        $statusProduto->disponivel = $dados['disponivel'];
+        $statusProduto->permite_saida = $dados['permite_saida'];
+        $statusProduto->update();
 
         return redirect()->route('statusProdutos.index')
-            ->with('successo', 'Status atualizado com sucesso!');
+            ->with('status', 'Status atualizado com sucesso!');
     }
 
     public function destroy(ProdutoStatus $statusProduto): RedirectResponse
@@ -66,6 +65,7 @@ class ProdutosStatusController extends Controller
         }
 
         $statusProduto->delete();
-        return redirect()->route('statusProdutos.index');
+        return redirect()->route('statusProdutos.index')
+            ->with('status', 'Status removido com sucesso!');
     }
 }

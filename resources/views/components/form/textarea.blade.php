@@ -1,4 +1,3 @@
-{{-- form/textarea.blade.php --}}
 @props(['name', 'label' => null, 'value' => null, 'rows' => 4])
 
 <x-form.field :name="$name" :label="$label" livre :class="$attributes->get('class')">

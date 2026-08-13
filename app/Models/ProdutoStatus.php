@@ -15,11 +15,7 @@ class ProdutoStatus extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id',
-        'created_at',
-        'updated_at'
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'disponivel' => 'boolean',
@@ -29,15 +25,5 @@ class ProdutoStatus extends Model
     public function produtos(): HasMany
     {
         return $this->hasMany(Produto::class);
-    }
-
-    public function scopeDisponiveis($query)
-    {
-        return $query->where('disponivel', true);
-    }
-
-    public function scopePermiteSaida($query)
-    {
-        return $query->where('permite_saida', true);
     }
 }
