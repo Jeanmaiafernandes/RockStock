@@ -1,25 +1,27 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegistrarController;
-use App\Http\Controllers\DeslogarController;
+use App\Http\Controllers\Auth\AutenticacaoController;
+use App\Http\Controllers\Auth\RegistroController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
 use App\Http\Controllers\ProdutosCategoriasController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/dashboard');
+Route::redirect('/', '/painel');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('guest')->group(function () {
+    Route::get('/registrar', [RegistroController::class, 'exibirRegistro'])->name('registrar');
+    Route::post('/registrar', [RegistroController::class, 'registrar']);
+
+    Route::get('/entrar', [AutenticacaoController::class, 'exibirLogin'])->name('entrar');
+    Route::post('/entrar', [AutenticacaoController::class, 'autenticar'])
+        ->middleware('throttle:5,1');
+});
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/sair', [AutenticacaoController::class, 'sair'])->name('sair');
+    Route::view('/painel', 'painel')->name('painel');
 
     Route::prefix('/categorias')->group(function () {
         Route::get('/', [ProdutosCategoriasController::class, 'index'])->name('categorias.index');
@@ -50,20 +52,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('/pedidos')->group(function () {
-       Route::get('/', [PedidosController::class, 'index'])->name('pedidos.index');
-       Route::post('/', [PedidosController::class, 'store'])->name('pedidos.store');
-       Route::get('/criar', [PedidosController::class, 'create'])->name('pedidos.create');
-       Route::get('/{pedido}/visualizar', [PedidosController::class, 'show'])->name('pedidos.show');
-       Route::get('/{pedido}/editar', [PedidosController::class, 'edit'])->name('pedidos.edit');
-       Route::patch('/{pedido}', [PedidosController::class, 'update'])->name('pedidos.update');
-       Route::delete('/{pedido}', [PedidosController::class, 'destroy'])->name('pedidos.destroy');
+        Route::get('/', [PedidosController::class, 'index'])->name('pedidos.index');
+        Route::post('/', [PedidosController::class, 'store'])->name('pedidos.store');
+        Route::get('/criar', [PedidosController::class, 'create'])->name('pedidos.create');
+        Route::get('/{pedido}/visualizar', [PedidosController::class, 'show'])->name('pedidos.show');
+        Route::get('/{pedido}/editar', [PedidosController::class, 'edit'])->name('pedidos.edit');
+        Route::patch('/{pedido}', [PedidosController::class, 'update'])->name('pedidos.update');
+        Route::delete('/{pedido}', [PedidosController::class, 'destroy'])->name('pedidos.destroy');
     });
 });
-
-Route::middleware('autenticado')->group(function () {
-    Route::post('/registrar', [RegistrarController::class, 'registrarUsuario']);
-    Route::post('/logar', [LoginController::class, 'loginUsuario']);
-    Route::post('/deslogar', [DeslogarController::class, 'deslogarUsuario']);
-});
-
-require __DIR__.'/auth.php';
