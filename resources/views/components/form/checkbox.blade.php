@@ -1,7 +1,21 @@
-@props(['name', 'label', 'checked' => false])
+@props([
+    'name',
+    'label'   => null,
+    'checked' => false,
+    'value'   => 1,
+])
 
-<label class="flex items-center gap-2 text-sm">
-    <input type="hidden" name="{{ $name }}" value="0">
-    <input type="checkbox" name="{{ $name }}" value="1" @checked(old($name, $checked))>
-    {{ $label }}
+{{-- Checkbox com rótulo. Uso: <x-form.checkbox name="disponivel" label="Disponível" :checked="old('disponivel', $status->disponivel)" /> --}}
+<label class="inline-flex items-center gap-2">
+    <input
+        type="checkbox"
+        name="{{ $name }}"
+        id="{{ $attributes->get('id', $name) }}"
+        value="{{ $value }}"
+        @checked($checked)
+        {{ $attributes->except('id')->merge(['class' => 'rounded border-gray-300 text-violet-600 shadow-sm focus:ring-violet-500']) }}
+    >
+    @if ($label)
+        <span class="text-sm text-gray-700">{{ $label }}</span>
+    @endif
 </label>

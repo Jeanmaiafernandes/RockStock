@@ -34,4 +34,14 @@ class Produto extends Model
     {
         return $this->hasMany(PedidoItem::class, 'produto_id');
     }
+
+    public function fornecedor(): BelongsTo
+    {
+        return $this->belongsTo(Fornecedor::class, 'fornecedor_id');
+    }
+
+    public function enderecoDeEstoque(): BelongsTo
+    {
+        return $this->belongsTo(EnderecoDeEstoque::class, 'endereco_de_estoque_id');
+    }
 }

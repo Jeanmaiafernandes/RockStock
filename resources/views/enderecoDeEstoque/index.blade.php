@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('titulo', 'Categorias')
+@section('titulo', 'Endereços de estoque')
 
 @section('conteudo')
 
-    <x-page-header title="Categorias">
-        <a href="{{ route('categorias.create') }}" class="btn">Nova categoria</a>
+    <x-page-header title="Endereços de estoque">
+        <a href="{{ route('enderecoDeEstoque.create') }}" class="btn">Novo endereço</a>
     </x-page-header>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -13,36 +13,38 @@
             <table class="min-w-full divide-y divide-gray-100 text-sm">
                 <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                 <tr>
-                    <th class="px-6 py-3">Nome</th>
+                    <th class="px-6 py-3">Código</th>
+                    <th class="px-4 py-3">Tipo</th>
                     <th class="px-4 py-3">Situação</th>
                     <th class="px-4 py-3 text-right">Ações</th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
-                @forelse ($categorias as $categoria)
+                @forelse ($enderecoDeEstoque as $endereco)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('categorias.edit', $categoria) }}"
-                               class="font-medium text-gray-900 hover:text-violet-600">{{ $categoria->nome }}</a>
+                            <a href="{{ route('enderecoDeEstoque.edit', $endereco) }}"
+                               class="font-mono font-medium text-gray-900 hover:text-violet-600">{{ $endereco->codigo }}</a>
                         </td>
+                        <td class="px-4 py-3 text-gray-500">{{ $endereco->tipo ?? '—' }}</td>
                         <td class="px-4 py-3">
-                            <x-status :tone="$categoria->ativo ? 'success' : 'neutral'">
-                                {{ $categoria->ativo ? 'Ativa' : 'Inativa' }}
+                            <x-status :tone="$endereco->bloqueado ? 'danger' : 'success'">
+                                {{ $endereco->bloqueado ? 'Bloqueado' : 'Livre' }}
                             </x-status>
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="inline-flex items-center gap-4">
-                                <a href="{{ route('categorias.edit', $categoria) }}"
+                                <a href="{{ route('enderecoDeEstoque.edit', $endereco) }}"
                                    class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
-                                <x-form.delete :action="route('categorias.destroy', $categoria)" />
+                                <x-form.delete :action="route('enderecoDeEstoque.delete', $endereco)" />
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="px-6 py-10 text-center text-gray-500">
-                            Nenhuma categoria cadastrada.
-                            <a href="{{ route('categorias.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar a primeira</a>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500">
+                            Nenhum endereço cadastrado.
+                            <a href="{{ route('enderecoDeEstoque.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                         </td>
                     </tr>
                 @endforelse
@@ -51,6 +53,6 @@
         </div>
     </div>
 
-    <div class="mt-4">{{ $categorias->links() }}</div>
+    <div class="mt-4">{{ $enderecoDeEstoque->links() }}</div>
 
 @endsection

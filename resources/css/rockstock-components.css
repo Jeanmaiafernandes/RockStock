@@ -1,0 +1,25 @@
+/*
+ | Classes utilitárias usadas nas views (.card, .btn, .btn-sec).
+ |
+ | Você provavelmente JÁ tem essas classes no seu app.css (o painel.blade.php usa).
+ | Este arquivo é só referência do que as views assumem — se as suas já existem,
+ | ignore. Se quiser, cole este @layer no seu resources/css/app.css (depois das
+ | diretivas @tailwind).
+ */
+@layer components {
+    .card {
+        @apply rounded-xl border border-gray-200 bg-white p-6 shadow-sm;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center rounded-lg bg-violet-600 px-4 py-2
+               text-sm font-medium text-white transition hover:bg-violet-700
+               focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2;
+    }
+
+    .btn-sec {
+        @apply inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2
+               text-sm font-medium text-gray-700 transition hover:bg-gray-50
+               focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2;
+    }
+}

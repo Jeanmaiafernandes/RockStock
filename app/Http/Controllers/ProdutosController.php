@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProdutosStoreRequest;
 use App\Http\Requests\ProdutosUpdateRequest;
+use App\Models\EnderecoDeEstoque;
+use App\Models\Fornecedor;
 use App\Models\Produto;
 use App\Models\ProdutoCategoria;
 use App\Models\ProdutoStatus;
@@ -15,10 +17,15 @@ class ProdutosController extends Controller
     public function index(): View
     {
         $produtos = Produto::query()
-            ->with(['categoria', 'status'])
-            ->select(['id', 'nome', 'descricao',
-                'quantidade', 'sku', 'ean', 'produto_categoria_id', 'produto_status_id'])
+            ->with(['categoria', 'status', 'fornecedor', 'enderecoDeEstoque'])
+            ->select(['id', 'nome', 'descricao', 'tamanho',
+                'quantidade', 'sku',
+                'produto_categoria_id',
+                'produto_status_id',
+                'fornecedor_id',
+                'endereco_de_estoque_id'])
             ->paginate(10);
+
         return view('produtos.index', compact('produtos'));
     }
 
@@ -29,6 +36,10 @@ class ProdutosController extends Controller
                 ->pluck('nome', 'id')->toArray(),
             'status'     => ProdutoStatus::query()->orderBy('nome')
                 ->pluck('nome', 'id')->toArray(),
+            'fornecedores' => Fornecedor::query()->orderBy('nome')
+                ->pluck('nome', 'id')->toArray(),
+            'enderecos_de_estoque' => EnderecoDeEstoque::query()->orderBy('codigo')
+                ->pluck('codigo', 'id')->toArray(),
         ]);
     }
 
@@ -40,10 +51,12 @@ class ProdutosController extends Controller
         $produto->nome = $dados['nome'];
         $produto->descricao = $dados['descricao'];
         $produto->sku  = $dados['sku'];
-        $produto->ean  = $dados['ean'];
         $produto->quantidade = $dados['quantidade'];
+        $produto->tamanho = $dados['tamanho'];
         $produto->produto_status_id = $dados['produto_status_id'];
         $produto->produto_categoria_id = $dados['produto_categoria_id'];
+        $produto->fornecedor_id = $dados['fornecedor_id'];
+        $produto->endereco_de_estoque_id = $dados ['endereco_de_estoque_id'];
         $produto->save();
 
         return redirect()->route('produtos.index')
@@ -66,6 +79,10 @@ class ProdutosController extends Controller
                 ->pluck('nome', 'id')->toArray(),
             'status'     => ProdutoStatus::query()->orderBy('nome')
                 ->pluck('nome', 'id')->toArray(),
+            'fornecedores' => Fornecedor::query()->orderBy('nome')
+                ->pluck('nome', 'id')->toArray(),
+            'enderecos_de_estoque' => EnderecoDeEstoque::query()->orderBy('codigo')
+                ->pluck('codigo', 'id')->toArray(),
         ]);
     }
 
@@ -76,10 +93,12 @@ class ProdutosController extends Controller
         $produto->nome = $dados['nome'];
         $produto->descricao = $dados['descricao'];
         $produto->sku  = $dados['sku'];
-        $produto->ean  = $dados['ean'];
         $produto->quantidade = $dados['quantidade'];
+        $produto->tamanho = $dados['tamanho'];
         $produto->produto_status_id = $dados['produto_status_id'];
         $produto->produto_categoria_id = $dados['produto_categoria_id'];
+        $produto->fornecedor_id = $dados['fornecedor_id'];
+        $produto->endereco_de_estoque_id = $dados ['endereco_de_estoque_id'];
         $produto->update();
 
         return redirect()->route('produtos.index')

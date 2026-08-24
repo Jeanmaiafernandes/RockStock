@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\EnderecoDeEstoque;
+use App\Models\Fornecedor;
 use App\Models\Produto;
 use App\Models\ProdutoCategoria;
 use App\Models\ProdutoStatus;
@@ -16,6 +18,8 @@ class ProdutoSeeder extends Seeder
         Produto::factory(2)
             ->recycle(ProdutoCategoria::all())
             ->recycle(ProdutoStatus::all())
+            ->recycle(Fornecedor::all())
+            ->recycle(EnderecoDeEstoque::all())
             ->create();
     }
 }

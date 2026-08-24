@@ -14,8 +14,8 @@ class ProdutosStatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome'  => ['required', 'string', 'max:50'],
-            'disponivel' => ['required', 'boolean'],
+            'nome'          => ['required', 'string', 'max:50'],
+            'disponivel'    => ['required', 'boolean'],
             'permite_saida' => ['required', 'boolean'],
         ];
     }

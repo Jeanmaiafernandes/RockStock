@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AutenticacaoController;
 use App\Http\Controllers\Auth\RegistroController;
+use App\Http\Controllers\EnderecoDeEstoqueController;
+use App\Http\Controllers\FornecedoresController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
@@ -22,6 +24,24 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/sair', [AutenticacaoController::class, 'sair'])->name('sair');
     Route::view('/painel', 'painel')->name('painel');
+
+    Route::prefix('fornecedores')->group(function () {
+        Route::get('/', [FornecedoresController::class, 'index'])->name('fornecedores.index');
+        Route::post('/', [FornecedoresController::class, 'store'])->name('fornecedores.store');
+        Route::get('/cadastrar', [FornecedoresController::class, 'create'])->name('fornecedores.create');
+        Route::get('fornecedores/editar/{fornecedor}', [FornecedoresController::class, 'edit'])->name('fornecedores.edit');
+        Route::put('fornecedores/{fornecedor}', [FornecedoresController::class, 'update'])->name('fornecedores.update');
+        Route::delete('fornecedores/{fornecedor}', [FornecedoresController::class, 'destroy'])->name('fornecedores.destroy');
+    });
+
+    Route::prefix('enderecoDeEstoque')->group(function () {
+        Route::get('/', [EnderecoDeEstoqueController::class, 'index'])->name('enderecoDeEstoque.index');
+        Route::post('/', [EnderecoDeEstoqueController::class, 'store'])->name('enderecoDeEstoque.store');
+        Route::get('/cadastrar', [EnderecoDeEstoqueController::class, 'create'])->name('enderecoDeEstoque.create');
+        Route::get('enderecosDeEstoque/editar/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'edit'])->name('enderecoDeEstoque.edit');
+        Route::put('enderecosDeEstoque/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'update'])->name('enderecoDeEstoque.update');
+        Route::delete('enderecosDeEstoque/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'destroy'])->name('enderecoDeEstoque.delete');
+    });
 
     Route::prefix('/categorias')->group(function () {
         Route::get('/', [ProdutosCategoriasController::class, 'index'])->name('categorias.index');

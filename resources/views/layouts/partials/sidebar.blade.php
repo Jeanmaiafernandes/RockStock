@@ -53,6 +53,20 @@
             Status de produtos
         </x-sidebar-link>
 
+        <x-sidebar-link :href="route('enderecoDeEstoque.index')" :active="request()->routeIs('enderecoDeEstoque.*')">
+            <x-slot:icon>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </x-slot:icon>
+            Endereço de Estoque
+        </x-sidebar-link>
+
+        <x-sidebar-link :href="route('fornecedores.index')" :active="request()->routeIs('statusProdutos.*')">
+            <x-slot:icon>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </x-slot:icon>
+            Fornecedores
+        </x-sidebar-link>
+
         <p class="mb-2 px-3 pt-6 text-[11px] font-semibold uppercase tracking-widest text-gray-500">Operações</p>
 
         <x-sidebar-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.*')">

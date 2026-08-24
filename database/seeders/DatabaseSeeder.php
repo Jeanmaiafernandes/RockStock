@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fornecedor;
 use App\Models\Produto;
 use App\Models\ProdutoCategoria;
 use App\Models\ProdutoStatus;
@@ -28,6 +29,8 @@ class DatabaseSeeder extends Seeder
             ProdutoSeeder::class,
             PedidoSeeder::class,
             PedidoItemSeeder::class,
+            FornecedorSeed::class,
+            EnderecoDeEstoqueSeeder::class,
         ]);
     }
 }

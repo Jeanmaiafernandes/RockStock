@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('titulo', 'Categorias')
+@section('titulo', 'Fornecedores')
 
 @section('conteudo')
 
-    <x-page-header title="Categorias">
-        <a href="{{ route('categorias.create') }}" class="btn">Nova categoria</a>
+    <x-page-header title="Fornecedores">
+        <a href="{{ route('fornecedores.create') }}" class="btn">Novo fornecedor</a>
     </x-page-header>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -14,35 +14,37 @@
                 <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                 <tr>
                     <th class="px-6 py-3">Nome</th>
+                    <th class="px-4 py-3">Contato</th>
                     <th class="px-4 py-3">Situação</th>
                     <th class="px-4 py-3 text-right">Ações</th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
-                @forelse ($categorias as $categoria)
+                @forelse ($fornecedores as $fornecedor)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('categorias.edit', $categoria) }}"
-                               class="font-medium text-gray-900 hover:text-violet-600">{{ $categoria->nome }}</a>
+                            <a href="{{ route('fornecedores.edit', $fornecedor) }}"
+                               class="font-medium text-gray-900 hover:text-violet-600">{{ $fornecedor->nome }}</a>
                         </td>
+                        <td class="px-4 py-3 text-gray-500">{{ $fornecedor->contato ?? '—' }}</td>
                         <td class="px-4 py-3">
-                            <x-status :tone="$categoria->ativo ? 'success' : 'neutral'">
-                                {{ $categoria->ativo ? 'Ativa' : 'Inativa' }}
+                            <x-status :tone="$fornecedor->ativo ? 'success' : 'neutral'">
+                                {{ $fornecedor->ativo ? 'Ativo' : 'Inativo' }}
                             </x-status>
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="inline-flex items-center gap-4">
-                                <a href="{{ route('categorias.edit', $categoria) }}"
+                                <a href="{{ route('fornecedores.edit', $fornecedor) }}"
                                    class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
-                                <x-form.delete :action="route('categorias.destroy', $categoria)" />
+                                <x-form.delete :action="route('fornecedores.destroy', $fornecedor)" />
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="px-6 py-10 text-center text-gray-500">
-                            Nenhuma categoria cadastrada.
-                            <a href="{{ route('categorias.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar a primeira</a>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500">
+                            Nenhum fornecedor cadastrado.
+                            <a href="{{ route('fornecedores.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                         </td>
                     </tr>
                 @endforelse
@@ -51,6 +53,6 @@
         </div>
     </div>
 
-    <div class="mt-4">{{ $categorias->links() }}</div>
+    <div class="mt-4">{{ $fornecedores->links() }}</div>
 
 @endsection

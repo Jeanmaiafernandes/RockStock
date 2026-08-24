@@ -1,16 +1,29 @@
-@props(['name', 'label' => null, 'livre' => false])
+@props([
+    'label' => null,
+    'name'  => null,
+    'hint'  => null,
+])
 
-<div {{ $attributes->class([
-        'space-y-1 self-start',
-        'relative pb-5' => ! $livre,   // reserva 1 linha pro erro: validar não empurra o grid
-    ]) }}>
+{{--
+    Envelope de um campo de formulário: rótulo + campo (slot) + erro de validação.
+    Usa os componentes Breeze x-input-label e x-input-error.
+    Uso:
+        <x-form.field label="Nome" name="nome">
+            <x-form.input name="nome" :value="old('nome', $produto->nome)" />
+        </x-form.field>
+--}}
+<div>
     @if ($label)
-        <label for="{{ $name }}" class="block text-sm font-medium">{{ $label }}</label>
+        <x-input-label :for="$name" :value="$label" />
     @endif
 
-    {{ $slot }}
+    <div class="mt-1">{{ $slot }}</div>
 
-    @error($name)
-    <p class="erro absolute inset-x-0 bottom-0">{{ $message }}</p>
-    @enderror
+    @if ($hint)
+        <p class="mt-1 text-xs text-gray-400">{{ $hint }}</p>
+    @endif
+
+    @if ($name)
+        <x-input-error :messages="$errors->get($name)" class="mt-1" />
+    @endif
 </div>

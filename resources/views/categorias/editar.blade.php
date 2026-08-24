@@ -3,17 +3,28 @@
 @section('titulo', 'Editar categoria')
 
 @section('conteudo')
-    <form method="POST" action="{{ route('categorias.update', $categoria) }}" class="card max-w-lg space-y-4">
-        @csrf
-        @method('PATCH')
 
-        <x-form.input name="nome" label="Nome" :value="$categoria->nome" maxlength="50" autofocus />
+    <x-page-header :title="'Editar: '.$categoria->nome" />
 
-        <x-form.checkbox name="ativo" label="Categoria ativa" :checked="$categoria->ativo" />
+    <div class="card max-w-2xl">
+        <form action="{{ route('categorias.update', $categoria) }}" method="POST" class="space-y-5">
+            @csrf
+            @method('PATCH')
 
-        <div class="flex gap-2">
-            <button class="btn">Salvar alterações</button>
-            <a href="{{ route('categorias.index') }}" class="btn-sec">Cancelar</a>
-        </div>
-    </form>
+            <x-form.field label="Nome" name="nome">
+                <x-form.input name="nome" :value="old('nome', $categoria->nome)" />
+            </x-form.field>
+
+            <x-form.field name="ativo">
+                <input type="hidden" name="ativo" value="0">
+                <x-form.checkbox name="ativo" label="Categoria ativa" :checked="old('ativo', $categoria->ativo)" />
+            </x-form.field>
+
+            <div class="flex items-center gap-3 pt-2">
+                <x-primary-button>Salvar alterações</x-primary-button>
+                <a href="{{ route('categorias.index') }}" class="btn-sec">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
 @endsection

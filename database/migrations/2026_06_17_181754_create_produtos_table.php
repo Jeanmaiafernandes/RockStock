@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\EnderecoDeEstoque;
+use App\Models\Fornecedor;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +17,13 @@ return new class extends Migration
             $table->string('nome', 200);
             $table->text('descricao')->nullable();
             $table->string('sku', 20);
-            $table->string('ean', 13)->nullable();
+            $table->string('tamanho', 6);
             $table->unsignedInteger('quantidade');
+
+            $table->foreignIdFor(Fornecedor::class)->constrained('fornecedores')
+            ->restrictOnDelete();
+            $table->foreignIdFor(EnderecoDeEstoque::class)->constrained('enderecos_de_estoque')
+                ->restrictOnDelete();
             $table->foreignIdFor(ProdutoStatus::class)->constrained('produtos_status')
                 ->restrictOnDelete();
             $table->foreignIdFor(ProdutoCategoria::class)->constrained('produtos_categorias')

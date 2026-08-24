@@ -1,9 +1,14 @@
-@props(['name', 'label' => null, 'value' => null, 'type' => 'text'])
+@props([
+    'name',
+    'value' => null,
+    'type'  => 'text',
+])
 
-<x-form.field :name="$name" :label="$label" :class="$attributes->get('class')">
-    <input type="{{ $type }}"
-           name="{{ $name }}"
-           id="{{ $attributes->get('id', $name) }}"
-           value="{{ old($name, $value) }}"
-        {{ $attributes->except(['class', 'id'])->merge(['class' => 'input']) }}>
-</x-form.field>
+{{-- Input de texto padrão (tema claro). Uso: <x-form.input name="nome" :value="old('nome')" /> --}}
+<input
+    type="{{ $type }}"
+    name="{{ $name }}"
+    id="{{ $attributes->get('id', $name) }}"
+    value="{{ $value }}"
+    {{ $attributes->except('id')->merge(['class' => 'block w-full rounded-lg border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500']) }}
+>

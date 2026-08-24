@@ -1,14 +1,21 @@
-@props(['name', 'label' => null, 'value' => null, 'opcoes' => [], 'vazio' => 'Selecione...'])
+@props([
+    'name',
+    'options'     => [],
+    'selected'    => null,
+    'placeholder' => null,
+])
 
-<x-form.field :name="$name" :label="$label" :class="$attributes->get('class')">
-    <select name="{{ $name }}" id="{{ $attributes->get('id', $name) }}"
-        {{ $attributes->except(['class', 'id'])->merge(['class' => 'input']) }}>
-        @if ($vazio !== false)
-            <option value="">{{ $vazio }}</option>
-        @endif
+{{-- Select padrão. Uso: <x-form.select name="categoria_id" :options="$categorias" :selected="old('categoria_id')" placeholder="Selecione…" /> --}}
+<select
+    name="{{ $name }}"
+    id="{{ $attributes->get('id', $name) }}"
+    {{ $attributes->except('id')->merge(['class' => 'block w-full rounded-lg border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500']) }}
+>
+    @if (! is_null($placeholder))
+        <option value="">{{ $placeholder }}</option>
+    @endif
 
-        @foreach ($opcoes as $id => $nome)
-            <option value="{{ $id }}" @selected((string) old($name, $value) === (string) $id)>{{ $nome }}</option>
-        @endforeach
-    </select>
-</x-form.field>
+    @foreach ($options as $valor => $rotulo)
+        <option value="{{ $valor }}" @selected((string) $selected === (string) $valor)>{{ $rotulo }}</option>
+    @endforeach
+</select>

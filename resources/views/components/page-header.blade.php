@@ -1,37 +1,16 @@
-@props([
-    'title',
-    'subtitle' => null
-])
+@props(['title' => ''])
 
+{{--
+    Cabeçalho de página. Título à esquerda; o slot vai à direita (botões de ação).
+    Uso:
+        <x-page-header title="Produtos">
+            <a href="{{ route('produtos.create') }}" class="btn">Novo produto</a>
+        </x-page-header>
+--}}
+<div {{ $attributes->merge(['class' => 'mb-6 flex flex-wrap items-center justify-between gap-4']) }}>
+    <h1 class="text-xl font-semibold text-gray-800">{{ $title }}</h1>
 
-<div class="mb-6 flex items-center justify-between">
-
-    <div>
-
-        <h1 class="text-2xl font-bold text-gray-900">
-            {{ $title }}
-        </h1>
-
-
-        @if($subtitle)
-
-            <p class="mt-1 text-sm text-gray-500">
-                {{ $subtitle }}
-            </p>
-
-        @endif
-
-    </div>
-
-
-    @if($slot->isNotEmpty())
-
-        <div>
-
-            {{ $slot }}
-
-        </div>
-
+    @if (! $slot->isEmpty())
+        <div class="flex items-center gap-3">{{ $slot }}</div>
     @endif
-
 </div>
