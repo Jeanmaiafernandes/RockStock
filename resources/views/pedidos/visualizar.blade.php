@@ -5,7 +5,6 @@
 @section('conteudo')
 
     @php
-        // controller: view('pedidos.visualizar', compact('pedido')); load('user','itens.produto')
         $valorStatus = $pedido->statusPedido->value ?? $pedido->statusPedido;
         $tone = match ((string) $valorStatus) {
             'confirmado' => 'success',
