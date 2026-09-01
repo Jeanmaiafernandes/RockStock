@@ -6,7 +6,7 @@ use App\Models\Fornecedor;
 use App\Models\Produto;
 use App\Models\ProdutoCategoria;
 use App\Models\ProdutoStatus;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,16 +16,16 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
+        Usuario::factory()->create([
+            'nome' => 'Test User',
             'email' => 'test@example.com',
-            'password' => '123123'
+            'senha' => password_hash('test', PASSWORD_DEFAULT),
         ]);
 
         $this->call([
             ProdutoCategoriaSeeder::class,
             ProdutoStatusSeeder::class,
-            UserSeeder::class,
+            UsuarioSeeder::class,
             ProdutoSeeder::class,
             PedidoSeeder::class,
             PedidoItemSeeder::class,

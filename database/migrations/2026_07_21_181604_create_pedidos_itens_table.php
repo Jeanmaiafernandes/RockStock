@@ -12,8 +12,14 @@ return new class extends Migration
     {
         Schema::create('pedidos_itens', function (Blueprint $table) {
            $table->id();
-            $table->foreignIdFor(Pedido::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Produto::class)->constrained();
+
+            $table->foreignIdFor(Pedido::class)
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignIdFor(Produto::class)
+                ->constrained();
+
             $table->unsignedInteger('quantidade');
             $table->timestamps();
 

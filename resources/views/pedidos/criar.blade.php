@@ -5,19 +5,6 @@
 @section('conteudo')
 
     @php
-        /*
-         | Controller passa: $produtos ([id => nome])
-         | Opcionalmente: $statusOpcoes ([valor => rótulo])
-         |
-         | O solicitante vai num hidden com auth()->id(); para escolher outra
-         | pessoa, passe $users ([id => name]) — ver comentário no formulário.
-         */
-
-        // ---------------------------------------------------------------
-        // Opções de status
-        // ---------------------------------------------------------------
-        // Descobre o enum pelo cast do próprio model, em vez de duplicar a
-        // lista aqui. Se não houver cast, cai no fallback do fim.
         $statusOpcoes = $statusOpcoes ?? (function () {
             $classe = (new \App\Models\Pedido)->getCasts()['statusPedido'] ?? null;
 
@@ -36,8 +23,6 @@
             return $opcoes;
         })();
 
-        // Fallback = exatamente os valores aceitos pelo PedidosStoreRequest
-        // ('in:rascunho,confirmado,cancelado'). Se mudar lá, mude aqui.
         if (empty($statusOpcoes)) {
             $statusOpcoes = ['rascunho' => 'Rascunho', 'confirmado' => 'Confirmado', 'cancelado' => 'Cancelado'];
         }
@@ -46,9 +31,6 @@
             ? 'rascunho'
             : array_key_first($statusOpcoes));
 
-        // ---------------------------------------------------------------
-        // Itens: old() ou uma linha em branco
-        // ---------------------------------------------------------------
         $itensIniciais = array_values(old('itens', []));
 
         $produtosSelecionaveis = collect($produtos)
@@ -57,11 +39,6 @@
             ->values()
             ->all();
 
-        /*
-         | Erros aninhados (itens.0.produto_id) agrupados por linha.
-         | $errors->get('itens') NÃO devolve isso — é por causa disso que as
-         | mensagens dos itens nunca apareciam na tela.
-         */
         $errosPorLinha = [];
 
         foreach ($errors->getMessages() as $chave => $mensagens) {
@@ -77,8 +54,6 @@
         <form action="{{ route('pedidos.store') }}" method="POST" class="space-y-5">
             @csrf
 
-            {{-- Resumo de erros: o usuário precisa perceber a falha mesmo que o
-                 campo problemático esteja fora da viewport. --}}
             @if ($errors->any())
                 <div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800" role="alert">
                     <p class="font-medium">Não foi possível criar o pedido:</p>
@@ -90,17 +65,7 @@
                 </div>
             @endif
 
-            {{-- Solicitante: o pedido nasce no nome de quem está logado.
-                 Para deixar escolher outra pessoa, passe $users ([id => name])
-                 do controller e troque este hidden por:
-
-                 <x-form.field label="Solicitante" name="user_id">
-                     <x-form.select name="user_id" :options="$users"
-                                    :selected="old('user_id', auth()->id())"
-                                    placeholder="Selecione…" required />
-                 </x-form.field>
-            --}}
-            <input type="hidden" name="user_id" value="{{ old('user_id', auth()->id()) }}">
+            <input type="hidden" name="usuario_id" value="{{ old('usuario_id', auth()->id()) }}">
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <x-form.field label="Status" name="statusPedido">
@@ -181,8 +146,6 @@
                 </div>
 
                 <div class="space-y-3">
-                    {{-- :key estável (_k). Com :key="i" o Alpine reaproveita o DOM
-                         errado ao remover uma linha do meio. --}}
                     <template x-for="(item, i) in itens" :key="item._k">
                         <div>
                             <div class="flex items-start gap-3">

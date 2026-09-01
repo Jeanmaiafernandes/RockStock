@@ -22,9 +22,9 @@ class Pedido extends Model
         return $this->HasMany(PedidoItem::class);
     }
 
-    public function user(): BelongsTo
+    public function usuario(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Usuario::class);
     }
 
     protected static function booted(): void

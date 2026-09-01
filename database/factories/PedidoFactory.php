@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Pedido;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +16,7 @@ class PedidoFactory extends Factory
             'codigo'       => strtoupper(fake()->unique()->bothify('PED-######')),
             'destino'      => fake()->city(),
             'observacao'   => fake()->optional()->sentence(),
-            'user_id'      => User::factory(),
+            'usuario_id'      => Usuario::factory(),
             'statusPedido' => fake()->randomElement(['rascunho', 'confirmado', 'cancelado']),
         ];
     }

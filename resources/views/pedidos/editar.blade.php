@@ -5,20 +5,6 @@
 @section('conteudo')
 
     @php
-        /*
-         | Controller passa: $pedido (com ->load('itens.produto')),
-         | $produtos ([id => nome])
-         |
-         | O solicitante é preservado num hidden; para permitir trocá-lo, passe
-         | $users ([id => name]) — ver comentário no formulário.
-         */
-
-        // ---------------------------------------------------------------
-        // Itens: old() > banco > uma linha em branco
-        // ---------------------------------------------------------------
-        // O `id` de cada item vai num hidden para o controller fazer upsert em
-        // vez de delete + create — assim não se perde created_at, colunas
-        // extras (preço no momento do pedido, etc.) nem FKs que apontem pro item.
         $itensDoBanco = $pedido->itens
             ->map(fn ($item) => [
                 'id' => $item->id,
@@ -30,12 +16,6 @@
 
         $itensIniciais = array_values(old('itens', $itensDoBanco));
 
-        // ---------------------------------------------------------------
-        // Produtos selecionáveis
-        // ---------------------------------------------------------------
-        // Um produto já usado no pedido precisa continuar na lista mesmo que
-        // tenha saído do catálogo (inativo / soft delete). Sem isso o <select>
-        // cai em "" e o item some silenciosamente ao salvar.
         $produtosSelecionaveis = collect($produtos)
             ->map(fn ($nome, $id) => ['id' => (string) $id, 'nome' => (string) $nome, 'disponivel' => true])
             ->keyBy('id');
@@ -81,23 +61,14 @@
                 : (string) \Illuminate\Support\Str::of($caso->value)->replace('_', ' ')->ucfirst();
         }
 
-        // Fallback = exatamente os valores aceitos pelo PedidosUpdateRequest
-        // ('in:rascunho,confirmado,cancelado'). Se mudar lá, mude aqui.
         if (empty($statusOpcoes)) {
             $statusOpcoes = ['rascunho' => 'Rascunho', 'confirmado' => 'Confirmado', 'cancelado' => 'Cancelado'];
         }
 
-        /*
-         | Trocar o status é uma decisão de fluxo, não um campo livre de
-         | formulário. Se existir PedidoPolicy::alterarStatus, ela manda; se
-         | ainda não existir, o campo continua editável (comportamento atual).
-         | Lembre de repetir a checagem no controller/FormRequest — esconder o
-         | <select> aqui é só interface, não é segurança.
-         */
         $policy = app(\Illuminate\Contracts\Auth\Access\Gate::class)->getPolicyFor($pedido);
 
         $podeAlterarStatus = (! $policy || ! method_exists($policy, 'alterarStatus'))
-            || (bool) auth()->user()?->can('alterarStatus', $pedido);
+            || (bool) auth()->usuario()?->can('alterarStatus', $pedido);
     @endphp
 
     <x-page-header :title="'Editar pedido '.$pedido->codigo" />
@@ -107,15 +78,9 @@
             @csrf
             @method('PATCH')
 
-            {{-- Lock otimista: se outra pessoa salvou o pedido enquanto esta tela
-                 estava aberta, o controller recusa em vez de sobrescrever o
-                 trabalho dela em silêncio. Comparar assim no update():
-                   $request->date('updated_at')->utc()->format('Y-m-d H:i:s')
-                   === $pedido->updated_at->copy()->utc()->format('Y-m-d H:i:s') --}}
+
             <input type="hidden" name="updated_at" value="{{ $pedido->updated_at?->toJSON() }}">
 
-            {{-- Resumo de erros: o usuário precisa perceber a falha mesmo que o
-                 campo problemático esteja fora da viewport. --}}
             @if ($errors->any())
                 <div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800" role="alert">
                     <p class="font-medium">Não foi possível salvar o pedido:</p>
@@ -127,17 +92,8 @@
                 </div>
             @endif
 
-            {{-- Solicitante: mantido como está enquanto $users não vem do
-                 controller. Para voltar a permitir a troca, passe $users
-                 ([id => name]) e substitua este hidden por:
 
-                 <x-form.field label="Solicitante" name="user_id">
-                     <x-form.select name="user_id" :options="$users"
-                                    :selected="old('user_id', $pedido->user_id)"
-                                    placeholder="Selecione…" required />
-                 </x-form.field>
-            --}}
-            <input type="hidden" name="user_id" value="{{ old('user_id', $pedido->user_id) }}">
+            <input type="hidden" name="usuario_id" value="{{ old('usuario_id', $pedido->usuario_id) }}">
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <x-form.field label="Status" name="statusPedido">

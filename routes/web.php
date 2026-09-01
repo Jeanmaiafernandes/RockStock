@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\AutenticacaoController;
-use App\Http\Controllers\Auth\RegistroController;
+use App\Http\Controllers\Auth\AutenticarController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EnderecoDeEstoqueController;
 use App\Http\Controllers\FornecedoresController;
 use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\MovimentacaoEstoqueController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
 use App\Http\Controllers\ProdutosCategoriasController;
@@ -13,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/painel');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/registrar', [RegistroController::class, 'exibirRegistro'])->name('registrar');
-    Route::post('/registrar', [RegistroController::class, 'registrar']);
+    Route::get('/registrar', [AutenticarController::class, 'mostrarRegistroForm'])->name('registrar');
+    Route::post('/registrar', [AutenticarController::class, 'registrar']);
 
-    Route::get('/entrar', [AutenticacaoController::class, 'exibirLogin'])->name('entrar');
-    Route::post('/entrar', [AutenticacaoController::class, 'autenticar'])
+    Route::get('/entrar', [LoginController::class, 'mostrarLoginForm'])->name('login');
+    Route::post('/entrar', [LoginController::class, 'entrar'])
         ->middleware('throttle:5,1');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/sair', [AutenticacaoController::class, 'sair'])->name('sair');
+    Route::post('/sair', [LoginController::class, 'sair'])->name('sair');
     Route::view('/painel', 'painel')->name('painel');
 
     Route::prefix('fornecedores')->group(function () {
@@ -69,6 +70,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{statusProduto}/editar', [ProdutosStatusController::class, 'edit'])->name('statusProdutos.edit');
         Route::patch('/{statusProduto}', [ProdutosStatusController::class, 'update'])->name('statusProdutos.update');
         Route::delete('/{statusProduto}', [ProdutosStatusController::class, 'destroy'])->name('statusProdutos.destroy');
+    });
+
+    Route::prefix('/movimentacoes')->group(function () {
+        Route::get('/', [MovimentacaoEstoqueController::class, 'index'])->name('movimentacoes.index');
+        Route::get('/{movimentacoes}/visualizar', [MovimentacaoEstoqueController::class, 'show'])->name('movimentacoes.show');
     });
 
     Route::prefix('/pedidos')->group(function () {
