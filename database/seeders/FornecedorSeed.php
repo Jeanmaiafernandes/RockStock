@@ -11,6 +11,6 @@ class FornecedorSeed extends Seeder
 {
     public function run(): void
     {
-        Fornecedor::factory()->create(1);
+        Fornecedor::factory()->create();
     }
 }

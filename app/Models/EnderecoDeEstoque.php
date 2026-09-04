@@ -16,8 +16,16 @@ class EnderecoDeEstoque extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = ['bloqueado' => 'boolean'];
+
     public function produtos(): HasMany
     {
         return $this->hasMany(Produto::class, 'endereco_de_estoque_id');
     }
+
+    public const array TIPOS = [
+            'arara',
+            'arquivado',
+            'restauro'
+        ];
 }

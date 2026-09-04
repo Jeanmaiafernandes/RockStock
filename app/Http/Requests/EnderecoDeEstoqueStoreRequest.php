@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\EnderecoDeEstoque;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EnderecoDeEstoqueStoreRequest extends FormRequest
 {
@@ -14,9 +16,18 @@ class EnderecoDeEstoqueStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo'    => ['required', 'string', 'max:255', 'unique:enderecos_de_estoque,codigo'],
-            'tipo'      => ['required', 'string', 'max:255'],
+            'codigo'    => ['required', 'string', 'max:20', 'unique:enderecos_de_estoque,codigo'],
+            'tipo' => ['required', Rule::in(EnderecoDeEstoque::TIPOS)],
             'bloqueado' => ['required', 'boolean'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'tipo.in' => 'Selecione um tipo válido.',
+            'codigo.max' => 'O código tem no máximo 20 caracteres.',
+            'codigo.unique' => 'Esse código já está cadastrado.',
         ];
     }
 }

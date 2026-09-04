@@ -6,9 +6,10 @@ use App\Http\Requests\PedidosStoreRequest;
 use App\Http\Requests\PedidosUpdateRequest;
 use App\Models\Pedido;
 use App\Models\Produto;
-use App\Models\User;
+use App\Models\Usuario;
 use App\Services\Services\PedidoService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Throwable;
 
@@ -16,7 +17,7 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = Pedido::with('user')
+        $pedidos = Pedido::with('usuario')
         ->withCount('itens')
         ->latest()
             ->paginate(10);
@@ -40,13 +41,17 @@ class PedidosController extends Controller
 
         $pedido = $pedidoService->criarPedido($dados);
 
+        if (! Gate::allows('criarPedido', $pedido)) {
+            abort(403);
+        }
+
         return redirect()->route('pedidos.show', $pedido)
             ->with('successo', 'Pedido criado com sucesso!');
     }
 
     public function show(Pedido $pedido): View
     {
-        $pedido->load('user', 'itens.produto');
+        $pedido->load('usuario', 'itens.produto');
 
         return view('pedidos.visualizar',
             compact('pedido'));
@@ -59,7 +64,7 @@ class PedidosController extends Controller
         return view('pedidos.editar', [
             'pedido'   => $pedido,
             'produtos' => Produto::query()->pluck('nome', 'id'),
-            'users'    => User::query()->pluck('name', 'id'),
+            'usuarios'    => Usuario::query()->pluck('nome', 'id'),
         ]);
     }
 

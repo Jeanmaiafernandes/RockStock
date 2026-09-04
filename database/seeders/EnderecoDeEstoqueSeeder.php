@@ -11,6 +11,6 @@ class EnderecoDeEstoqueSeeder extends Seeder
 {
     public function run(): void
     {
-        EnderecoDeEstoque::factory()->create(3);
+        EnderecoDeEstoque::factory()->count(10)->create();
     }
 }

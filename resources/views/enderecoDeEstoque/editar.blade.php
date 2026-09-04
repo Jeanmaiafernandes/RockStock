@@ -4,7 +4,12 @@
 
 @section('conteudo')
 
-    {{-- controller: view('enderecoDeEstoque.editar', ['enderecoDeEstoque' => $enderecoDeEstoque]) --}}
+    @php
+        $tiposOpcoes = collect($tipos ?? $tipo ?? \App\Models\EnderecoDeEstoque::TIPOS)
+            ->mapWithKeys(fn ($t) => [$t => \Illuminate\Support\Str::ucfirst($t)])
+            ->all();
+    @endphp
+
     <x-page-header :title="'Editar: '.$enderecoDeEstoque->codigo" />
 
     <div class="card max-w-2xl">
@@ -16,8 +21,14 @@
                 <x-form.input name="codigo" :value="old('codigo', $enderecoDeEstoque->codigo)" />
             </x-form.field>
 
-            <x-form.field label="Tipo" name="tipo" hint="Ex.: picking, reserva, avaria…">
-                <x-form.input name="tipo" :value="old('tipo', $enderecoDeEstoque->tipo)" />
+            <x-form.field label="Tipo" name="tipo">
+                <x-form.select
+                    name="tipo"
+                    :options="$tiposOpcoes"
+                    :selected="old('tipo', $enderecoDeEstoque->tipo)"
+                    placeholder="Selecione…"
+                    required
+                />
             </x-form.field>
 
             <x-form.field name="bloqueado">

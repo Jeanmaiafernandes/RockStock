@@ -21,7 +21,9 @@ class EnderecoDeEstoqueController extends Controller
 
     public function create(): View
     {
-        return view('enderecoDeEstoque.criar');
+        return view('enderecoDeEstoque.criar', [
+            'tipos' => EnderecoDeEstoque::TIPOS,
+        ]);
     }
 
     public function store(EnderecoDeEstoqueStoreRequest $request): RedirectResponse
@@ -41,7 +43,9 @@ class EnderecoDeEstoqueController extends Controller
     public function edit(EnderecoDeEstoque $enderecoDeEstoque): View
     {
         return view('enderecoDeEstoque.editar',
-        ['enderecoDeEstoque' => $enderecoDeEstoque]);
+        ['enderecoDeEstoque' => $enderecoDeEstoque,
+            'tipos' => EnderecoDeEstoque::TIPOS,
+            ]);
     }
 
     public function update(EnderecoDeEstoqueUpdateRequest $request,

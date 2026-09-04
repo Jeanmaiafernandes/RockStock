@@ -4,6 +4,12 @@
 
 @section('conteudo')
 
+    @php
+        $tiposOpcoes = collect($tipos ?? $tipo ?? \App\Models\EnderecoDeEstoque::TIPOS)
+            ->mapWithKeys(fn ($t) => [$t => \Illuminate\Support\Str::ucfirst($t)])
+            ->all();
+    @endphp
+
     <x-page-header title="Novo endereço de estoque" />
 
     <div class="card max-w-2xl">
@@ -14,8 +20,14 @@
                 <x-form.input name="codigo" :value="old('codigo')" placeholder="A-04-2" />
             </x-form.field>
 
-            <x-form.field label="Tipo" name="tipo" hint="Ex.: picking, reserva, avaria… (pode virar um select depois)">
-                <x-form.input name="tipo" :value="old('tipo')" placeholder="picking" />
+            <x-form.field label="Tipo" name="tipo">
+                <x-form.select
+                    name="tipo"
+                    :options="$tiposOpcoes"
+                    :selected="old('tipo')"
+                    placeholder="Selecione…"
+                    required
+                />
             </x-form.field>
 
             <x-form.field name="bloqueado">

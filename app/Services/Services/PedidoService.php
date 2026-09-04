@@ -16,7 +16,7 @@ class PedidoService
     {
         return DB::transaction(function () use ($dados) {
             $pedido = Pedido::query()->create([
-                'user_id' => auth()->id(),
+                'usuario_id' => auth()->id(),
                 'destino' => $dados['destino'],
                 'observacao' => $dados['observacao'] ?? null,
                 'statusPedido' => $dados['statusPedido'],

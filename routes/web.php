@@ -6,6 +6,7 @@ use App\Http\Controllers\EnderecoDeEstoqueController;
 use App\Http\Controllers\FornecedoresController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\MovimentacaoEstoqueController;
+use App\Http\Controllers\PerfilUsuarioController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
 use App\Http\Controllers\ProdutosCategoriasController;
@@ -25,6 +26,12 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/sair', [LoginController::class, 'sair'])->name('sair');
     Route::view('/painel', 'painel')->name('painel');
+
+    Route::prefix('/perfil')->group(function () {
+        Route::get('/', [PerfilUsuarioController::class, 'index'])->name('perfil.index');
+        Route::patch('/', [PerfilUsuarioController::class, 'atualizar'])->name('perfil.atualizar');
+        Route::patch('/senha', [PerfilUsuarioController::class, 'atualizarSenha'])->name('perfil.senha');
+    });
 
     Route::prefix('fornecedores')->group(function () {
         Route::get('/', [FornecedoresController::class, 'index'])->name('fornecedores.index');

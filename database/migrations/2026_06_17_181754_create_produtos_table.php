@@ -20,14 +20,22 @@ return new class extends Migration
             $table->string('tamanho', 6);
             $table->unsignedInteger('quantidade');
 
-            $table->foreignIdFor(Fornecedor::class)->constrained('fornecedores')
+            $table->foreignIdFor(Fornecedor::class)
+                ->constrained('fornecedores')
             ->restrictOnDelete();
-            $table->foreignIdFor(EnderecoDeEstoque::class)->constrained('enderecos_de_estoque')
+
+            $table->foreignIdFor(EnderecoDeEstoque::class)
+                ->constrained('enderecos_de_estoque')
                 ->restrictOnDelete();
-            $table->foreignIdFor(ProdutoStatus::class)->constrained('produtos_status')
+
+            $table->foreignIdFor(ProdutoStatus::class)
+                ->constrained('produtos_status')
                 ->restrictOnDelete();
-            $table->foreignIdFor(ProdutoCategoria::class)->constrained('produtos_categorias')
+
+            $table->foreignIdFor(ProdutoCategoria::class)
+                ->constrained('produtos_categorias')
             ->restrictOnDelete();
+
             $table->timestamps();
         });
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\StatusCategoria;
+use App\Enums\Enums\StatusCategoria;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
