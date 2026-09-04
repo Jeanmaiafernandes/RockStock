@@ -92,10 +92,14 @@
                     {{ Str::upper(Str::substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="truncate text-sm font-medium text-gray-200">{{ auth()->user()->name }}</p>
+                    <p class="truncate text-sm font-medium text-gray-200">{{ auth()->user()->nome }}</p>
                     <p class="truncate text-xs text-gray-500">{{ auth()->user()->email }}</p>
                 </div>
             </div>
+            <form method="GET" action="{{ route('perfil.index') }}" class="text-blue-500">
+                @csrf
+                <button type="submit" class="...">Perfil</button>
+            </form>
 
             <form method="POST" action="{{ route('sair') }}" class="text-red-600">
                 @csrf

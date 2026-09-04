@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class AutenticarRequest extends FormRequest
@@ -18,7 +19,11 @@ class AutenticarRequest extends FormRequest
             'nome'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuarios,email'],
             'senha' => ['required', 'string', 'confirmed', Password::defaults()],
-        ];
+                ];
+
+//        $validator = Validator::make($request->all(), [
+//            'senha' => ['required', Password::min(6)],
+//        ]);
     }
 
     public function messages(): array
