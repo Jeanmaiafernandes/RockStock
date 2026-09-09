@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AtualizarSenhaRequest;
 use App\Http\Requests\PerfilUsuarioRequest;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;

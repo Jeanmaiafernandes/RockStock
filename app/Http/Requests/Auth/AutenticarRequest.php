@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -20,10 +22,6 @@ class AutenticarRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuarios,email'],
             'senha' => ['required', 'string', 'confirmed', Password::defaults()],
                 ];
-
-//        $validator = Validator::make($request->all(), [
-//            'senha' => ['required', Password::min(6)],
-//        ]);
     }
 
     public function messages(): array
@@ -45,5 +43,12 @@ class AutenticarRequest extends FormRequest
             'email' => $this->string('email')->toString(),
             'senha' => $this->string('senha')->toString(),
         ];
+    }
+
+    public function boot(): void
+    {
+        RateLimiter::for('login', function () {
+            return Limit::perMinute(10);
+        });
     }
 }

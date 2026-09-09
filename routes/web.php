@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Session\Middleware\AuthenticateSession;
+use App\Http\Controllers\Auth\DeslogarController;
 use App\Http\Controllers\Auth\AutenticarController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EnderecoDeEstoqueController;
@@ -25,14 +25,13 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', 'auth.session'])->group(function () {
-    Route::post('/sair', [LoginController::class, 'sair'])->name('sair');
+    Route::post('/deslogar', [DeslogarController::class, 'deslogar'])->name('sair');
     Route::view('/painel', 'painel')->name('painel');
 
     Route::prefix('/perfil')->group(function () {
         Route::get('/', [PerfilUsuarioController::class, 'index'])->name('perfil.index');
         Route::patch('/', [PerfilUsuarioController::class, 'atualizar'])->name('perfil.atualizar');
         Route::patch('/senha', [PerfilUsuarioController::class, 'atualizarSenha'])->name('perfil.senha');
-       // Auth::logoutOtherDevices($senhaAtual);
     });
 
     Route::prefix('fornecedores')->group(function () {
