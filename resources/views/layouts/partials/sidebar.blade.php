@@ -53,16 +53,18 @@
             Status de produtos
         </x-sidebar-link>
 
+        {{-- Ícone próprio (map-pin) em vez de repetir o do status --}}
         <x-sidebar-link :href="route('enderecoDeEstoque.index')" :active="request()->routeIs('enderecoDeEstoque.*')">
             <x-slot:icon>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>
             </x-slot:icon>
-            Endereço de Estoque
+            Endereço de estoque
         </x-sidebar-link>
 
-        <x-sidebar-link :href="route('fornecedores.index')" :active="request()->routeIs('statusProdutos.*')">
+        {{-- CORRIGIDO: o active olhava 'statusProdutos.*' --}}
+        <x-sidebar-link :href="route('fornecedores.index')" :active="request()->routeIs('fornecedores.*')">
             <x-slot:icon>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
             </x-slot:icon>
             Fornecedores
         </x-sidebar-link>
@@ -76,9 +78,10 @@
             Pedidos
         </x-sidebar-link>
 
+        {{-- Ícone próprio (setas) em vez de repetir o de pedidos --}}
         <x-sidebar-link :href="route('movimentacoes.index')" :active="request()->routeIs('movimentacoes.*')">
             <x-slot:icon>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>
             </x-slot:icon>
             Movimentações de estoque
         </x-sidebar-link>
@@ -88,23 +91,32 @@
     @auth
         <div class="shrink-0 border-t border-gray-800 p-4">
             <div class="flex items-center gap-3">
+                {{-- CORRIGIDO: era ->name; a coluna agora é 'nome' --}}
                 <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-700 text-xs font-semibold text-gray-300">
-                    {{ Str::upper(Str::substr(auth()->user()->name, 0, 1)) }}
+                    {{ Str::upper(Str::substr(auth()->user()->nome, 0, 1)) }}
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-medium text-gray-200">{{ auth()->user()->nome }}</p>
                     <p class="truncate text-xs text-gray-500">{{ auth()->user()->email }}</p>
                 </div>
             </div>
-            <form method="GET" action="{{ route('perfil.index') }}" class="text-blue-500">
-                @csrf
-                <button type="submit" class="...">Perfil</button>
-            </form>
 
-            <form method="POST" action="{{ route('sair') }}" class="text-red-600">
-                @csrf
-                <button type="submit" class="...">Sair</button>
-            </form>
+            <div class="mt-3 flex gap-2">
+                {{-- CORRIGIDO: link simples (era um <form method="GET"> com @csrf) e rota 'perfil' --}}
+                <a href="{{ route('perfil') }}"
+                   class="flex-1 rounded-md px-3 py-1.5 text-center text-sm
+                          {{ request()->routeIs('perfil*') ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                    Perfil
+                </a>
+
+                <form method="POST" action="{{ route('sair') }}" class="flex-1">
+                    @csrf
+                    <button type="submit"
+                            class="w-full rounded-md px-3 py-1.5 text-sm text-red-400 hover:bg-gray-800 hover:text-red-300">
+                        Sair
+                    </button>
+                </form>
+            </div>
         </div>
     @endauth
 </aside>

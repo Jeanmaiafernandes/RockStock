@@ -17,7 +17,7 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = Pedido::with('usuario')
+        $pedidos = Pedido::with('usuarios')
         ->withCount('itens')
         ->latest()
             ->paginate(10);
@@ -51,7 +51,7 @@ class PedidosController extends Controller
 
     public function show(Pedido $pedido): View
     {
-        $pedido->load('usuario', 'itens.produto');
+        $pedido->load('usuarios', 'itens.produto');
 
         return view('pedidos.visualizar',
             compact('pedido'));

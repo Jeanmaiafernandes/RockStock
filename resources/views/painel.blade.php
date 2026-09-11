@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titulo', 'Painel')
+@section('titulo', 'Meu perfil')
 
 @section('conteudo')
 
@@ -10,7 +10,7 @@
             ->take(5)
             ->get();
 
-        $ultimosPedidos = $ultimosPedidos ?? \App\Models\Pedido::with('usuario')
+        $ultimosPedidos = $ultimosPedidos ?? \App\Models\Pedido::with('usuarios')
             ->withCount('itens')
             ->latest()
             ->take(5)
@@ -19,6 +19,7 @@
 
     {{-- Ações rápidas --}}
     <div class="card">
+
         <h2 class="text-sm font-semibold text-gray-800">Ações rápidas</h2>
 
         <div class="mt-4 flex flex-wrap gap-3">

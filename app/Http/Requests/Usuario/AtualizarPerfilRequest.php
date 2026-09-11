@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PerfilUsuarioRequest extends FormRequest
+class AtualizarPerfilRequest extends FormRequest
 {
-    protected $errorBag = 'perfil';
-
     public function authorize(): bool
     {
         return true;
@@ -20,7 +18,6 @@ class PerfilUsuarioRequest extends FormRequest
             'nome'  => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
-                'string',
                 'email',
                 'max:255',
                 Rule::unique('usuarios', 'email')->ignore($this->user()->id),
@@ -34,7 +31,7 @@ class PerfilUsuarioRequest extends FormRequest
             'nome.required'  => 'Informe o nome.',
             'email.required' => 'Informe o e-mail.',
             'email.email'    => 'Informe um e-mail válido.',
-            'email.unique'   => 'Esse e-mail já está em uso por outra conta.',
+            'email.unique'   => 'Este e-mail já está em uso.',
         ];
     }
 }

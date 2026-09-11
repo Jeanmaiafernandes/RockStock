@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
 class AtualizarSenhaRequest extends FormRequest
 {
@@ -17,8 +16,8 @@ class AtualizarSenhaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'senha_atual' => ['required', 'string', 'current_password'],
-            'senha'       => ['required', 'string', 'confirmed', Password::defaults()],
+            'senha_atual' => ['required', 'current_password'],
+            'senha'       => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 
@@ -26,9 +25,10 @@ class AtualizarSenhaRequest extends FormRequest
     {
         return [
             'senha_atual.required'         => 'Informe a senha atual.',
-            'senha_atual.current_password' => 'A senha atual não confere.',
+            'senha_atual.current_password' => 'A senha atual está incorreta.',
             'senha.required'               => 'Informe a nova senha.',
-            'senha.confirmed'              => 'A confirmação de senha não confere.',
+            'senha.min'                    => 'A nova senha precisa ter pelo menos 8 caracteres.',
+            'senha.confirmed'              => 'A confirmação da nova senha não confere.',
         ];
     }
 }

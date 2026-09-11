@@ -12,7 +12,7 @@ class MovimentacaoEstoqueController extends Controller
     {
         $movimentacoes = MovimentacaoEstoque::with([
             'produto:id,sku,nome',
-            'usuario:id,nome',
+            'usuarios:id,nome',
             'enderecoOrigem:id,codigo',
             'enderecoDestino:id,codigo',
         ])

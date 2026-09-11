@@ -1,38 +1,20 @@
 <?php
 
-use App\Http\Controllers\Auth\DeslogarController;
-use App\Http\Controllers\Auth\AutenticarController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EnderecoDeEstoqueController;
 use App\Http\Controllers\FornecedoresController;
-use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\MovimentacaoEstoqueController;
-use App\Http\Controllers\PerfilUsuarioController;
+use App\Http\Controllers\PedidosController;
+use App\Http\Controllers\ProdutosCategoriasController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
-use App\Http\Controllers\ProdutosCategoriasController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/painel');
 
-Route::middleware('guest')->group(function () {
-    Route::get('/registrar', [AutenticarController::class, 'mostrarRegistroForm'])->name('registrar');
-    Route::post('/registrar', [AutenticarController::class, 'registrar']);
-
-    Route::get('/entrar', [LoginController::class, 'mostrarLoginForm'])->name('login');
-    Route::post('/entrar', [LoginController::class, 'entrar'])
-        ->middleware('throttle:5,1');
-});
+require __DIR__.'/usuarios.php';
 
 Route::middleware(['auth', 'auth.session'])->group(function () {
-    Route::post('/deslogar', [DeslogarController::class, 'deslogar'])->name('sair');
     Route::view('/painel', 'painel')->name('painel');
-
-    Route::prefix('/perfil')->group(function () {
-        Route::get('/', [PerfilUsuarioController::class, 'index'])->name('perfil.index');
-        Route::patch('/', [PerfilUsuarioController::class, 'atualizar'])->name('perfil.atualizar');
-        Route::patch('/senha', [PerfilUsuarioController::class, 'atualizarSenha'])->name('perfil.senha');
-    });
 
     Route::prefix('fornecedores')->group(function () {
         Route::get('/', [FornecedoresController::class, 'index'])->name('fornecedores.index');
