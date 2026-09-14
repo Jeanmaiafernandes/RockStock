@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Usuario extends Authenticatable
 {
+    use HasFactory;
+
     protected $table = 'usuarios';
 
-    protected $fillable = ['nome', 'email', 'senha'];
+    protected $guarded = ['id'];
+ //   protected $fillable = ['nome', 'email', 'senha'];
 
     protected $hidden = ['senha', 'lembrar_token'];
 

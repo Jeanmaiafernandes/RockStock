@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('email')->unique();
-            $table->string('senha');                            // guarda o HASH, nunca a senha pura
-            $table->string('lembrar_token', 100)->nullable();   // usado pelo "manter conectado"
+            $table->string('senha');
+            $table->string('lembrar_token', 100)->nullable();
             $table->timestamps();
         });
 
