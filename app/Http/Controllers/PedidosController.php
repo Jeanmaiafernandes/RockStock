@@ -17,7 +17,7 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = Pedido::with('usuarios')
+        $pedidos = Pedido::with('usuario')
         ->withCount('itens')
         ->latest()
             ->paginate(10);
@@ -51,7 +51,7 @@ class PedidosController extends Controller
 
     public function show(Pedido $pedido): View
     {
-        $pedido->load('usuarios', 'itens.produto');
+        $pedido->load('usuario', 'itens.produto');
 
         return view('pedidos.visualizar',
             compact('pedido'));
@@ -64,7 +64,7 @@ class PedidosController extends Controller
         return view('pedidos.editar', [
             'pedido'   => $pedido,
             'produtos' => Produto::query()->pluck('nome', 'id'),
-            'usuarios'    => Usuario::query()->pluck('nome', 'id'),
+            'usuario'    => Usuario::query()->pluck('nome', 'id'),
         ]);
     }
 

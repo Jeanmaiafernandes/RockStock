@@ -7,6 +7,7 @@ use App\Http\Requests\Usuario\AtualizarSenhaRequest;
 use App\Http\Requests\Usuario\CadastroRequest;
 use App\Http\Requests\Usuario\EntrarRequest;
 use App\Models\Usuario;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,15 +17,21 @@ class UsuariosController extends Controller
     {
         return view('usuarios.cadastro');
     }
-
-    public function cadastrar(CadastroRequest $request)
+    public function cadastrar(CadastroRequest $request): RedirectResponse
     {
-        $usuario = Usuario::query()->create($request->validated());
+        $dados = $request->validated();
+
+        $usuario = new Usuario();
+        $usuario->nome = $dados['nome'];
+        $usuario->email = $dados['email'];
+        $usuario->senha = $dados['senha'];
+        $usuario->save();
 
         Auth::login($usuario);
         $request->session()->regenerate();
 
-        return redirect()->route('perfil')->with('sucesso', 'Conta criada.');
+        return redirect()->route('perfil')
+            ->with('sucesso', 'Conta criada.');
     }
 
     public function formEntrar()
@@ -34,9 +41,11 @@ class UsuariosController extends Controller
 
     public function entrar(EntrarRequest $request)
     {
+        $dados = $request->validated();
+
         $credenciais = [
-            'email'    => $request->email,
-            'password' => $request->senha,
+            'email'    => $dados['email'],
+            'password' => $dados['senha'],
         ];
 
         if (! Auth::attempt($credenciais, $request->boolean('lembrar'))) {
@@ -49,6 +58,7 @@ class UsuariosController extends Controller
 
         return redirect()->intended(route('perfil'));
     }
+
 
     public function sair(Request $request)
     {
@@ -75,7 +85,7 @@ class UsuariosController extends Controller
     {
         $request->user()->update(['senha' => $request->senha]);
 
-        $request->session()->regenerate();
+        $request->session()->put('password_hash_web', $request->user()->getAuthPassword());
 
         return back()->with('sucesso', 'Senha alterada.');
     }
