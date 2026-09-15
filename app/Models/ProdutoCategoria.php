@@ -24,9 +24,4 @@ class ProdutoCategoria extends Model
     {
         return $this->hasMany(Produto::class);
     }
-
-//    public function Ativo()
-//    {
-//        return $this->produtos()->where('ativo', true);
-//    }
 }

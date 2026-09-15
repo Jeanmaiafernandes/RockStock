@@ -31,6 +31,14 @@ class Usuario extends Authenticatable
         return 'lembrar_token';
     }
 
+    public function credenciais(): array
+    {
+        return [
+            'email' => $this->email,
+            'senha' => $this->senha,
+        ];
+    }
+
     public function pedidos(): HasMany
     {
         return $this->hasMany(Pedido::class);

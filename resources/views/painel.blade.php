@@ -10,7 +10,7 @@
             ->take(5)
             ->get();
 
-        $ultimosPedidos = $ultimosPedidos ?? \App\Models\Pedido::with('usuarios')
+        $ultimosPedidos = $ultimosPedidos ?? \App\Models\Pedido::with('usuario')
             ->withCount('itens')
             ->latest()
             ->take(5)

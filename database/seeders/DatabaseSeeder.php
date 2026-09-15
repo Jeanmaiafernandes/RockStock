@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fornecedor;
-use App\Models\Produto;
-use App\Models\ProdutoCategoria;
-use App\Models\ProdutoStatus;
 use App\Models\Usuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

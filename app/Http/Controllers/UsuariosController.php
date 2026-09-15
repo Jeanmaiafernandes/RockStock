@@ -10,10 +10,11 @@ use App\Models\Usuario;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UsuariosController extends Controller
 {
-    public function formCadastro()
+    public function formCadastro(): View
     {
         return view('usuarios.cadastro');
     }
@@ -34,12 +35,12 @@ class UsuariosController extends Controller
             ->with('sucesso', 'Conta criada.');
     }
 
-    public function formEntrar()
+    public function formEntrar(): View
     {
         return view('usuarios.entrar');
     }
 
-    public function entrar(EntrarRequest $request)
+    public function entrar(EntrarRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -59,8 +60,7 @@ class UsuariosController extends Controller
         return redirect()->intended(route('perfil'));
     }
 
-
-    public function sair(Request $request)
+    public function sair(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -69,24 +69,24 @@ class UsuariosController extends Controller
         return redirect()->route('login');
     }
 
-    public function perfil(Request $request)
+    public function perfil(Request $request): View
     {
         return view('usuarios.perfil', ['usuario' => $request->user()]);
     }
 
-    public function atualizarPerfil(AtualizarPerfilRequest $request)
+    public function atualizarPerfil(AtualizarPerfilRequest $request): RedirectResponse
     {
         $request->user()->update($request->validated());
 
-        return back()->with('sucesso', 'Dados atualizados.');
+        return Redirect()->back()->with('sucesso', 'Dados atualizados.');
     }
 
-    public function atualizarSenha(AtualizarSenhaRequest $request)
+    public function atualizarSenha(AtualizarSenhaRequest $request): RedirectResponse
     {
         $request->user()->update(['senha' => $request->senha]);
 
         $request->session()->put('password_hash_web', $request->user()->getAuthPassword());
 
-        return back()->with('sucesso', 'Senha alterada.');
+        return redirect()->back()->with('sucesso', 'Senha alterada.');
     }
 }
