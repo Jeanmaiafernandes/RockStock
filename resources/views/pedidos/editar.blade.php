@@ -192,8 +192,6 @@
                 </div>
 
                 <div class="space-y-3">
-                    {{-- :key estável (_k). Com :key="i" o Alpine reaproveita o DOM
-                         errado ao remover uma linha do meio. --}}
                     <template x-for="(item, i) in itens" :key="item._k">
                         <div>
                             {{-- Preserva o ID do item existente para o upsert --}}
@@ -211,17 +209,12 @@
                                         :name="`itens[${i}][produto_id]`"
                                         x-model="item.produto_id"
                                         @change="limparErro(item)"
-                                        {{-- As <option> vêm de um x-for aninhado, que o Alpine só
-                                             processa DEPOIS de inicializar o x-model do select.
-                                             Sem este $nextTick o select nasceria vazio na edição. --}}
                                         x-init="$nextTick(() => $el.value = item.produto_id)"
                                         class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         :class="erroDe(item, 'produto_id') ? 'border-rose-400' : ''"
                                         required
                                     >
                                         <option value="">Selecione o produto…</option>
-                                        {{-- Lista passada uma vez ao Alpine: evita renderizar
-                                             N produtos × M linhas de <option> no HTML. --}}
                                         <template x-for="produto in produtos" :key="produto.id">
                                             <option
                                                 :value="produto.id"
@@ -297,8 +290,6 @@
                 <x-input-error :messages="$errors->get('itens')" class="mt-2" />
             </div>
 
-            {{-- Sem JS o <template x-for> não renderiza nada e o form iria vazio,
-                 o que zeraria os itens do pedido sem o usuário perceber. --}}
             <noscript>
                 <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
                     Este formulário precisa de JavaScript para editar os itens do pedido.

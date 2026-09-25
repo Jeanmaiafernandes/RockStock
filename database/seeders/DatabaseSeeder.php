@@ -22,11 +22,10 @@ class DatabaseSeeder extends Seeder
             ProdutoCategoriaSeeder::class,
             ProdutoStatusSeeder::class,
             UsuarioSeeder::class,
-            ProdutoSeeder::class,
-            PedidoSeeder::class,
-            PedidoItemSeeder::class,
+        //  ProdutoSeeder::class,
+        //  PedidoSeeder::class,
+        //  PedidoItemSeeder::class,
             FornecedorSeed::class,
-            EnderecoDeEstoqueSeeder::class,
         ]);
     }
 }

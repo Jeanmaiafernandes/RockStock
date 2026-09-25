@@ -7,7 +7,7 @@
     <x-page-header title="Novo status de produto" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('statusProdutos.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('statusProduto.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <x-form.field label="Nome" name="nome">
@@ -26,7 +26,7 @@
 
             <div class="flex items-center gap-3 pt-2">
                 <x-primary-button>Salvar status</x-primary-button>
-                <a href="{{ route('statusProdutos.index') }}" class="btn-sec">Cancelar</a>
+                <a href="{{ route('statusProduto.index') }}" class="btn-sec">Cancelar</a>
             </div>
         </form>
     </div>

@@ -2,78 +2,121 @@
 
 use App\Http\Controllers\EnderecoDeEstoqueController;
 use App\Http\Controllers\FornecedoresController;
+use App\Http\Controllers\ProdutosVariacoesController;
 use App\Http\Controllers\MovimentacaoEstoqueController;
 use App\Http\Controllers\PedidosController;
 use App\Http\Controllers\ProdutosCategoriasController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\ProdutosStatusController;
+use App\Http\Controllers\ProdutosTamanhosController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/painel');
 
 require __DIR__.'/usuarios.php';
 
-Route::middleware(['auth', 'auth.session'])->group(function () {
+Route::middleware(['auth', 'auth.session'])->group(callback: function () {
     Route::view('/painel', 'painel')->name('painel');
 
-    Route::prefix('fornecedores')->group(function () {
-        Route::get('/', [FornecedoresController::class, 'index'])->name('fornecedores.index');
-        Route::post('/', [FornecedoresController::class, 'store'])->name('fornecedores.store');
-        Route::get('/cadastrar', [FornecedoresController::class, 'create'])->name('fornecedores.create');
-        Route::get('fornecedores/editar/{fornecedor}', [FornecedoresController::class, 'edit'])->name('fornecedores.edit');
-        Route::put('fornecedores/{fornecedor}', [FornecedoresController::class, 'update'])->name('fornecedores.update');
-        Route::delete('fornecedores/{fornecedor}', [FornecedoresController::class, 'destroy'])->name('fornecedores.destroy');
+    Route::prefix('fornecedores')
+        ->name('fornecedores.')
+        ->controller(FornecedoresController::class)
+        ->group(function () {
+        Route::get('/','index')->name('index');
+        Route::post('/','store')->name('store');
+        Route::get('/cadastrar','create')->name('create');
+        Route::get('fornecedores/editar/{fornecedor}','edit')->name('edit');
+        Route::put('fornecedores/{fornecedor}','update')->name('update');
+        Route::delete('fornecedores/{fornecedor}','destroy')->name('destroy');
     });
 
-    Route::prefix('enderecoDeEstoque')->group(function () {
-        Route::get('/', [EnderecoDeEstoqueController::class, 'index'])->name('enderecoDeEstoque.index');
-        Route::post('/', [EnderecoDeEstoqueController::class, 'store'])->name('enderecoDeEstoque.store');
-        Route::get('/cadastrar', [EnderecoDeEstoqueController::class, 'create'])->name('enderecoDeEstoque.create');
-        Route::get('enderecosDeEstoque/editar/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'edit'])->name('enderecoDeEstoque.edit');
-        Route::put('enderecosDeEstoque/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'update'])->name('enderecoDeEstoque.update');
-        Route::delete('enderecosDeEstoque/{enderecoDeEstoque}', [EnderecoDeEstoqueController::class, 'destroy'])->name('enderecoDeEstoque.delete');
+    Route::prefix('enderecoDeEstoque')
+        ->name('enderecoDeEstoque.')
+        ->controller(EnderecoDeEstoqueController::class)
+        ->group(function () {
+        Route::get('/','index')->name('index');
+        Route::post('/','store')->name('store');
+        Route::get('/cadastrar','create')->name('create');
+        Route::get('enderecosDeEstoque/editar/{enderecoDeEstoque}', 'edit')->name('edit');
+        Route::put('enderecosDeEstoque/{enderecoDeEstoque}','update')->name('update');
+        Route::delete('enderecosDeEstoque/{enderecoDeEstoque}','destroy')->name('delete');
     });
 
-    Route::prefix('/categorias')->group(function () {
-        Route::get('/', [ProdutosCategoriasController::class, 'index'])->name('categorias.index');
-        Route::post('/', [ProdutosCategoriasController::class, 'store'])->name('categorias.store');
-        Route::get('/criar', [ProdutosCategoriasController::class, 'create'])->name('categorias.create');
-        Route::get('/{categoria}/editar', [ProdutosCategoriasController::class, 'edit'])->name('categorias.edit');
-        Route::patch('/{categoria}', [ProdutosCategoriasController::class, 'update'])->name('categorias.update');
-        Route::delete('/{categoria}', [ProdutosCategoriasController::class, 'destroy'])->name('categorias.destroy');
+    Route::prefix('/produtos')
+        ->name('produtos.')
+        ->controller(ProdutosController::class)
+        ->group(function () {
+        Route::get('/','index')->name('index');
+        Route::post('/','store')->name('store');
+        Route::get('/criar', 'create')->name('create');
+        Route::get('/{produto}/visualizar', 'show')->name('show');
+        Route::get('/{produto}/editar','edit')->name('edit');
+        Route::patch('/{produto}','update')->name('update');
     });
 
-    Route::prefix('/produtos')->group(function () {
-        Route::get('/', [ProdutosController::class, 'index'])->name('produtos.index');
-        Route::post('/', [ProdutosController::class, 'store'])->name('produtos.store');
-        Route::get('/criar', [ProdutosController::class, 'create'])->name('produtos.create');
-        Route::get('/{produto}/visualizar', [ProdutosController::class, 'show'])->name('produtos.show');
-        Route::get('/{produto}/editar', [ProdutosController::class, 'edit'])->name('produtos.edit');
-        Route::patch('/{produto}', [ProdutosController::class, 'update'])->name('produtos.update');
-        Route::delete('/{produto}', [ProdutosController::class, 'destroy'])->name('produtos.destroy');
-    });
+    Route::post('/{produto}/grade', [ProdutosVariacoesController::class, 'store'])->name('grade.store');
 
-    Route::prefix('/statusProdutos')->group(function () {
-        Route::get('/', [ProdutosStatusController::class, 'index'])->name('statusProdutos.index');
-        Route::post('/', [ProdutosStatusController::class, 'store'])->name('statusProdutos.store');
-        Route::get('/criar', [ProdutosStatusController::class, 'create'])->name('statusProdutos.create');
-        Route::get('/{statusProduto}/editar', [ProdutosStatusController::class, 'edit'])->name('statusProdutos.edit');
-        Route::patch('/{statusProduto}', [ProdutosStatusController::class, 'update'])->name('statusProdutos.update');
-        Route::delete('/{statusProduto}', [ProdutosStatusController::class, 'destroy'])->name('statusProdutos.destroy');
-    });
+    Route::prefix('/variacoes')
+        ->name('variacoes.')
+        ->controller(ProdutosVariacoesController::class)
+        ->group(function () {
+            Route::put('/{variacao}', 'update')->name('update');
+        });
 
-    Route::prefix('/movimentacoes')->group(function () {
-        Route::get('/', [MovimentacaoEstoqueController::class, 'index'])->name('movimentacoes.index');
-        Route::get('/{movimentacoes}/visualizar', [MovimentacaoEstoqueController::class, 'show'])->name('movimentacoes.show');
-    });
+    Route::prefix('/categoriasProduto')
+        ->name('categoriasProduto.')
+        ->controller(ProdutosCategoriasController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/criar', 'create')->name('create');
+            Route::get('/{categoria}/editar', 'edit')->name('edit');
+            Route::patch('/{categoria}', 'update')->name('update');
+            Route::delete('/{categoria}', 'destroy')->name('destroy');
+        });
 
-    Route::prefix('/pedidos')->group(function () {
-        Route::get('/', [PedidosController::class, 'index'])->name('pedidos.index');
-        Route::post('/', [PedidosController::class, 'store'])->name('pedidos.store');
-        Route::get('/criar', [PedidosController::class, 'create'])->name('pedidos.create');
-        Route::get('/{pedido}/visualizar', [PedidosController::class, 'show'])->name('pedidos.show');
-        Route::get('/{pedido}/editar', [PedidosController::class, 'edit'])->name('pedidos.edit');
-        Route::patch('/{pedido}', [PedidosController::class, 'update'])->name('pedidos.update');
-        Route::delete('/{pedido}', [PedidosController::class, 'destroy'])->name('pedidos.destroy');
-    });
+    Route::prefix('/statusProduto')
+        ->name('statusProduto.')
+        ->controller(ProdutosStatusController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/criar','create')->name('create');
+            Route::get('/{statusProduto}/editar','edit')->name('edit');
+            Route::patch('/{statusProduto}', 'update')->name('update');
+            Route::delete('/{statusProduto}', 'destroy')->name('destroy');
+        });
+
+    Route::prefix('produtos-tamanhos')
+        ->name('tamanhos.')
+        ->controller(ProdutosTamanhosController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/criar', 'create')->name('create');
+            Route::get('/{tamanho}/editar', 'edit')->name('edit');
+            Route::put('/{tamanho}', 'update')->name('update');
+            Route::delete('/{tamanho}', 'destroy')->name('destroy');
+        });
+
+    Route::prefix('/pedidos')
+        ->name('pedidos.')
+        ->controller(PedidosController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/criar', 'create')->name('create');
+            Route::get('/{pedido}/editar', 'edit')->name('edit');
+            Route::get('/{pedido}/visualizar', 'show')->name('show');
+            Route::patch('/{pedido}', 'update')->name('update');
+            Route::delete('/{pedido}', 'destroy')->name('destroy');
+        });
+
+    Route::prefix('/movimentacoes')
+        ->name('movimentacoes.')
+        ->controller(MovimentacaoEstoqueController::class)
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/{movimentacoes}/visualizar', 'show')->name('visualizar');
+        });
 });

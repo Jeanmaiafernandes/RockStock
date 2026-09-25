@@ -7,7 +7,7 @@
 
 {{-- Select padrão. Uso: <x-form.select
 name="categoria_id"
- :options="$categorias"
+ :options="$categoriasProduto"
   :selected="old('categoria_id')"
    placeholder="Selecione…" /> --}}
 

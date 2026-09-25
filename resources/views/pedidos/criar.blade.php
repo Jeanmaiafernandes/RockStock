@@ -158,17 +158,12 @@
                                         :name="`itens[${i}][produto_id]`"
                                         x-model="item.produto_id"
                                         @change="limparErro(item)"
-                                        {{-- As <option> vêm de um x-for aninhado, que o Alpine só
-                                             processa DEPOIS de inicializar o x-model do select.
-                                             Sem este $nextTick o select nasceria vazio. --}}
                                         x-init="$nextTick(() => $el.value = item.produto_id)"
                                         class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         :class="erroDe(item, 'produto_id') ? 'border-rose-400' : ''"
                                         required
                                     >
                                         <option value="">Selecione o produto…</option>
-                                        {{-- Lista passada uma vez ao Alpine: evita renderizar
-                                             N produtos × M linhas de <option> no HTML. --}}
                                         <template x-for="produto in produtos" :key="produto.id">
                                             <option :value="produto.id" x-text="produto.nome"></option>
                                         </template>
@@ -205,7 +200,6 @@
                                 </button>
                             </div>
 
-                            {{-- Erro da linha (validação) ou aviso de duplicidade --}}
                             <template x-if="erroDe(item, 'produto_id') || erroDe(item, 'quantidade') || duplicado(item)">
                                 <p
                                     class="mt-1 text-sm"
@@ -238,7 +232,6 @@
                 <x-input-error :messages="$errors->get('itens')" class="mt-2" />
             </div>
 
-            {{-- Sem JS o <template x-for> não renderiza nada e o form iria vazio. --}}
             <noscript>
                 <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
                     Este formulário precisa de JavaScript para montar os itens do pedido.

@@ -14,12 +14,12 @@ class ProdutosCategoriasController extends Controller
     {
         $categorias = ProdutoCategoria::query()->paginate(10);
 
-        return view('categorias.index', compact('categorias'));
+        return view('produtos.categoriasProduto.index', compact('categorias'));
     }
 
     public function create(): View
     {
-        return view('categorias.criar');
+        return view('produtos.categoriasProduto.criar');
     }
 
     public function store(CategoriasStoreRequest $request): RedirectResponse
@@ -31,13 +31,13 @@ class ProdutosCategoriasController extends Controller
         $categoria->ativo = $dados['ativo'];
         $categoria->save();
 
-        return redirect()->route('categorias.index')
+        return redirect()->route('categoriasProduto.index')
             ->with('successo', 'Categoria cadastrada com sucesso!');
     }
 
     public function edit(ProdutoCategoria $categoria): View
     {
-        return view('categorias.editar', compact('categoria'));
+        return view('produtos.categoriasProduto.editar', compact('categoria'));
     }
 
     public function update(CategoriasUpdateRequest $request, ProdutoCategoria $categoria): RedirectResponse
@@ -48,20 +48,20 @@ class ProdutosCategoriasController extends Controller
         $categoria->ativo = $dados['ativo'];
         $categoria->update();
 
-        return redirect()->route('categorias.index')
+        return redirect()->route('categoriasProduto.index')
         ->with('status', 'Categoria atualizada com sucesso!');
     }
 
     public function destroy(ProdutoCategoria $categoria): RedirectResponse
     {
         if($categoria->produtos()->exists()) {
-            return redirect()->route('categorias.index')
+            return redirect()->route('categoriasProduto.index')
                 ->with('erro', 'Não é possível excluir: há produtos com esta categoria.');
         }
 
         $categoria->delete();
 
-        return redirect()->route('categorias.index')
+        return redirect()->route('categoriasProduto.index')
             ->with('status', 'Categoria removida com sucesso!');
     }
 }

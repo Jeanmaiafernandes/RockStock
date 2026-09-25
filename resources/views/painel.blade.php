@@ -25,11 +25,10 @@
         <div class="mt-4 flex flex-wrap gap-3">
             <a href="{{ route('pedidos.create') }}" class="btn">Novo pedido</a>
             <a href="{{ route('produtos.create') }}" class="btn-sec">Novo produto</a>
-            <a href="{{ route('categorias.create') }}" class="btn-sec">Nova categoria</a>
-            <a href="{{ route('statusProdutos.create') }}" class="btn-sec">Novo status</a>
+            <a href="{{ route('categoriasProduto.create') }}" class="btn-sec">Nova categoria</a>
+            <a href="{{ route('statusProduto.create') }}" class="btn-sec">Novo status</a>
         </div>
     </div>
-
     {{-- Últimos produtos --}}
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">

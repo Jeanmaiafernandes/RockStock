@@ -10,7 +10,6 @@
 
         <div>
             <label for="nome" class="mb-1 block text-sm font-medium">Nome</label>
-            {{-- old('nome'): se a validação falhar, o campo volta preenchido --}}
             <input id="nome" name="nome" type="text" value="{{ old('nome') }}" required
                    class="w-full rounded border border-stone-300 px-3 py-2">
             @error('nome') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror

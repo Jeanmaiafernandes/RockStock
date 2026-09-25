@@ -7,7 +7,7 @@
     <x-page-header :title="'Editar: '.$categoria->nome" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('categorias.update', $categoria) }}" method="POST" class="space-y-5">
+        <form action="{{ route('categoriasProduto.update', $categoria) }}" method="POST" class="space-y-5">
             @csrf
             @method('PATCH')
 
@@ -22,7 +22,7 @@
 
             <div class="flex items-center gap-3 pt-2">
                 <x-primary-button>Salvar alterações</x-primary-button>
-                <a href="{{ route('categorias.index') }}" class="btn-sec">Cancelar</a>
+                <a href="{{ route('categoriasProduto.index') }}" class="btn-sec">Cancelar</a>
             </div>
         </form>
     </div>

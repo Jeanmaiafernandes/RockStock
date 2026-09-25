@@ -7,7 +7,7 @@
     <x-page-header title="Nova categoria" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('categorias.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('categoriasProduto.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <x-form.field label="Nome" name="nome">
@@ -21,7 +21,7 @@
 
             <div class="flex items-center gap-3 pt-2">
                 <x-primary-button>Salvar categoria</x-primary-button>
-                <a href="{{ route('categorias.index') }}" class="btn-sec">Cancelar</a>
+                <a href="{{ route('categoriasProduto.index') }}" class="btn-sec">Cancelar</a>
             </div>
         </form>
     </div>

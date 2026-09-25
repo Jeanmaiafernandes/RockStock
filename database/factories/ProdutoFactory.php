@@ -17,14 +17,12 @@ class ProdutoFactory extends Factory
     {
         return [
             'nome' => ucfirst($this->faker->words(3, true)),
-            'sku'        => strtoupper(fake()->unique()->bothify('SKU-####-???')),
+            'referencia' => $this->faker->word(),
+            'colecao' => $this->faker->word(),
             'descricao' => $this->faker->optional()->sentence(),
-            'tamanho' => $this->faker->randomDigit(),
-            'quantidade' => fake()->numberBetween(0, 500),
             'produto_categoria_id' => ProdutoCategoria::factory(),
             'produto_status_id' => ProdutoStatus::factory(),
             'fornecedor_id' => Fornecedor::factory(),
-            'endereco_de_estoque_id' => EnderecoDeEstoque::factory(),
         ];
     }
 

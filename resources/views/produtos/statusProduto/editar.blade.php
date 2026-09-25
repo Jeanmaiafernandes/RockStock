@@ -4,11 +4,10 @@
 
 @section('conteudo')
 
-    {{-- o controller passa $statusProduto (App\Models\ProdutoStatus) --}}
     <x-page-header :title="'Editar: '.$statusProduto->nome" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('statusProdutos.update', $statusProduto) }}" method="POST" class="space-y-5">
+        <form action="{{ route('statusProduto.update', $statusProduto) }}" method="POST" class="space-y-5">
             @csrf
             @method('PATCH')
 
@@ -28,7 +27,7 @@
 
             <div class="flex items-center gap-3 pt-2">
                 <x-primary-button>Salvar alterações</x-primary-button>
-                <a href="{{ route('statusProdutos.index') }}" class="btn-sec">Cancelar</a>
+                <a href="{{ route('statusProduto.index') }}" class="btn-sec">Cancelar</a>
             </div>
         </form>
     </div>
