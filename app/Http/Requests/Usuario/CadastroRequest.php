@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class CadastroRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class CadastroRequest extends FormRequest
         return [
             'nome'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:usuarios,email'],
-            'senha' => ['required', 'string', 'min:8', 'confirmed'],
+            'senha' => ['required', 'string', Password::min(2)->max(255), 'confirmed'],
         ];
     }
 

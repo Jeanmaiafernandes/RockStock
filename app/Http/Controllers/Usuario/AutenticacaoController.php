@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Usuario;
 
-use App\Http\Requests\Usuario\AtualizarPerfilRequest;
-use App\Http\Requests\Usuario\AtualizarSenhaRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Usuario\CadastroRequest;
 use App\Http\Requests\Usuario\EntrarRequest;
 use App\Models\Usuario;
@@ -12,12 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class UsuariosController extends Controller
+class AutenticacaoController extends Controller
 {
-    public function formCadastro(): View
+    public function formularioDeCadastro(): View
     {
         return view('usuarios.cadastro');
     }
+
     public function cadastrar(CadastroRequest $request): RedirectResponse
     {
         $dados = $request->validated();
@@ -32,10 +32,10 @@ class UsuariosController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('perfil')
-            ->with('sucesso', 'Conta criada.');
+            ->with('success', 'Cadastro realizado com sucesso!');
     }
 
-    public function formEntrar(): View
+    public function formularioDeLogin(): View
     {
         return view('usuarios.entrar');
     }
@@ -45,19 +45,20 @@ class UsuariosController extends Controller
         $dados = $request->validated();
 
         $credenciais = [
-            'email'    => $dados['email'],
+            'email' => $dados['email'],
             'password' => $dados['senha'],
         ];
 
-        if (! Auth::attempt($credenciais, $request->boolean('lembrar'))) {
+        if (Auth::attempt($credenciais, $request->boolean('lembrar'))) {
             return back()
-                ->withErrors(['email' => 'E-mail ou senha incorretos.'])
+                ->withErrors(['email' => 'E-mail ou senha incorretos!'])
                 ->onlyInput('email');
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('perfil'));
+        return redirect()->intended(route('perfil'))
+            ->with('sucesso', 'Usuario logado.');
     }
 
     public function sair(Request $request): RedirectResponse
@@ -67,26 +68,5 @@ class UsuariosController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
-    }
-
-    public function perfil(Request $request): View
-    {
-        return view('usuarios.perfil', ['usuario' => $request->user()]);
-    }
-
-    public function atualizarPerfil(AtualizarPerfilRequest $request): RedirectResponse
-    {
-        $request->user()->update($request->validated());
-
-        return Redirect()->back()->with('sucesso', 'Dados atualizados.');
-    }
-
-    public function atualizarSenha(AtualizarSenhaRequest $request): RedirectResponse
-    {
-        $request->user()->update(['senha' => $request->senha]);
-
-        $request->session()->put('password_hash_web', $request->user()->getAuthPassword());
-
-        return redirect()->back()->with('sucesso', 'Senha alterada.');
     }
 }
