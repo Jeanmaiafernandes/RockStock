@@ -7,11 +7,11 @@
     <x-page-header title="Novo status de produto" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('statusProduto.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('statusProduto.salvar') }}" method="POST" class="space-y-5">
             @csrf
 
             <x-form.field label="Nome" name="nome">
-                <x-form.input name="nome" :value="old('nome')" placeholder="Disponível" />
+                <x-form.input name="nome" :value="old('nome')" maxlength="50" placeholder="Disponível" />
             </x-form.field>
 
             <x-form.field name="disponivel">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Produto;
 
 use Database\Factories\ProdutoStatusFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;

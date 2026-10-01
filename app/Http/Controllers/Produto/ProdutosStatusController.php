@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Produto;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Produtos\ProdutosStatusStoreRequest;
 use App\Http\Requests\Produtos\ProdutosStatusUpdateRequest;
-use App\Models\ProdutoStatus;
+use App\Models\Produto\ProdutoStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -20,12 +21,12 @@ class ProdutosStatusController extends Controller
         return view('produtos.statusProduto.index', compact('statusProdutos'));
     }
 
-    public function create(): View
+    public function criar(): View
     {
         return view('produtos.statusProduto.criar');
     }
 
-    public function store(ProdutosStatusStoreRequest $request): RedirectResponse
+    public function salvar(ProdutosStatusStoreRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -39,12 +40,12 @@ class ProdutosStatusController extends Controller
             ->with('successo', 'Produto cadastrado com sucesso!');
     }
 
-    public function edit(ProdutoStatus $statusProduto): View
+    public function editar(ProdutoStatus $statusProduto): View
     {
         return view('produtos.statusProduto.editar', compact('statusProduto'));
     }
 
-    public function update(ProdutosStatusUpdateRequest $request, ProdutoStatus $statusProduto): RedirectResponse
+    public function atualizar(ProdutosStatusUpdateRequest $request, ProdutoStatus $statusProduto): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -57,7 +58,7 @@ class ProdutosStatusController extends Controller
             ->with('status', 'Status atualizado com sucesso!');
     }
 
-    public function destroy(ProdutoStatus $statusProduto): RedirectResponse
+    public function excluir(ProdutoStatus $statusProduto): RedirectResponse
     {
         if ($statusProduto->produtos()->exists()) {
             return redirect()->route('statusProduto.index')

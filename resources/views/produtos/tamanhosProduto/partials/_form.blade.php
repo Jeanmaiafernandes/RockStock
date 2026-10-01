@@ -5,7 +5,7 @@
 
 <div class="card max-w-2xl">
     <form method="POST"
-          action="{{ $editando ? route('tamanhos.update', $tamanho) : route('tamanhos.store') }}"
+          action="{{ $editando ? route('tamanhos.atualizar', $tamanho) : route('tamanhos.salvar') }}"
           class="space-y-5">
         @csrf
         @if ($editando)

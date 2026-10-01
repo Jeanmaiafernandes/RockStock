@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Produto;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Produtos\ProdutosStoreRequest;
 use App\Http\Requests\Produtos\ProdutosUpdateRequest;
 use App\Models\Fornecedor;
-use App\Models\Produto;
-use App\Models\ProdutoCategoria;
-use App\Models\ProdutoStatus;
-use App\Models\ProdutoTamanho;
+use App\Models\Produto\Produto;
+use App\Models\Produto\ProdutoCategoria;
+use App\Models\Produto\ProdutoStatus;
+use App\Models\Produto\ProdutoTamanho;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +55,7 @@ class ProdutosController extends Controller
         ]);
     }
 
-    public function create(): View
+    public function criar(): View
     {
         return view('produtos.criar', [
             'categorias'   => ProdutoCategoria::orderBy('nome')->pluck('nome', 'id'),
@@ -64,7 +65,7 @@ class ProdutosController extends Controller
         ]);
     }
 
-    public function store(ProdutosStoreRequest $request): RedirectResponse
+    public function salvar(ProdutosStoreRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -77,6 +78,7 @@ class ProdutosController extends Controller
             $produto->fornecedor_id = $dados['fornecedor_id'];
             $produto->produto_categoria_id = $dados['produto_categoria_id'];
             $produto->produto_status_id = $dados['produto_status_id'];
+        //    db::afterCommit(fn() => $produto->save());
             $produto->save();
 
             if (! empty($dados['cores']) && ! empty($dados['tamanhos'])) {
@@ -86,11 +88,11 @@ class ProdutosController extends Controller
             return $produto;
         });
 
-        return redirect()->route('produtos.show', $produto)
+        return redirect()->route('produtos.mostrar', $produto)
             ->with('sucesso', "Produto {$produto->referencia} cadastrado.");
     }
 
-    public function show(Produto $produto): View
+    public function mostrar(Produto $produto): View
     {
         $produto->load(['categoria', 'fornecedor', 'status', 'variacoes.tamanho']);
 
@@ -100,7 +102,7 @@ class ProdutosController extends Controller
         ]);
     }
 
-    public function edit(Produto $produto): View
+    public function editar(Produto $produto): View
     {
         return view('produtos.editar', [
             'produto'      => $produto,
@@ -110,7 +112,7 @@ class ProdutosController extends Controller
         ]);
     }
 
-    public function update(ProdutosUpdateRequest $request, Produto $produto): RedirectResponse
+    public function atualizar(ProdutosUpdateRequest $request, Produto $produto): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -123,7 +125,7 @@ class ProdutosController extends Controller
         $produto->produto_status_id = $dados['produto_status_id'];
         $produto->save();
 
-        return redirect()->route('produtos.show', $produto)
+        return redirect()->route('produtos.mostrar', $produto)
             ->with('sucesso', "Produto {$produto->referencia} atualizado.");
     }
 }

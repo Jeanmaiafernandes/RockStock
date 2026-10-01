@@ -45,7 +45,7 @@
             @endif
         </form>
 
-        <a href="{{ route('produtos.create') }}" class="btn">Novo produto</a>
+        <a href="{{ route('produtos.criar') }}" class="btn">Novo produto</a>
     </div>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -67,7 +67,7 @@
                 @forelse ($produtos as $produto)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('produtos.show', $produto) }}"
+                            <a href="{{ route('produtos.mostrar', $produto) }}"
                                class="font-mono font-medium text-gray-900 hover:text-violet-600">{{ $produto->referencia }}</a>
                         </td>
                         <td class="px-4 py-3 text-gray-900">{{ $produto->nome }}</td>
@@ -82,8 +82,8 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <x-menu-acoes
-                                :ver="route('produtos.show', $produto)"
-                                :editar="route('produtos.edit', $produto)" />
+                                :ver="route('produtos.mostrar', $produto)"
+                                :editar="route('produtos.editar', $produto)" />
                         </td>
                     </tr>
                 @empty
@@ -94,7 +94,7 @@
                                 <a href="{{ route('produtos.index') }}" class="font-medium text-violet-600 hover:underline">Limpar filtros</a>
                             @else
                                 Nenhum produto cadastrado.
-                                <a href="{{ route('produtos.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
+                                <a href="{{ route('produtos.criar') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                             @endif
                         </td>
                     </tr>

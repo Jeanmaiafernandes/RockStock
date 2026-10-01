@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Produto;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,8 +26,8 @@ class ProdutoVariacao extends Model
         return $this->belongsTo(ProdutoTamanho::class, 'tamanho_id');
     }
 
-    public function scopeAtivas(Builder $query): Builder
-    {
-        return $query->where('ativo', true);
-    }
+//    public function scopeAtivas(Builder $query): Builder
+//    {
+//        return $query->where('ativo', true);
+//    }
 }

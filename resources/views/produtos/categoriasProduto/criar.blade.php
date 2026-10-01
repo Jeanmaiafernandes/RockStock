@@ -7,11 +7,11 @@
     <x-page-header title="Nova categoria" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('categoriasProduto.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('categoriasProduto.salvar') }}" method="POST" class="space-y-5">
             @csrf
 
             <x-form.field label="Nome" name="nome">
-                <x-form.input name="nome" :value="old('nome')" placeholder="Couro e jaquetas" />
+                <x-form.input name="nome" :value="old('nome')" maxlength="50" placeholder="Couro e jaquetas" />
             </x-form.field>
 
             <x-form.field name="ativo">

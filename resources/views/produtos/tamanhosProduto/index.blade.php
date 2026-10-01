@@ -8,7 +8,7 @@
 
     <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
         <p class="text-sm text-gray-500">A ordem define como os tamanhos aparecem na grade dos produtos.</p>
-        <a href="{{ route('tamanhos.create') }}" class="btn">Novo tamanho</a>
+        <a href="{{ route('tamanhos.criar') }}" class="btn">Novo tamanho</a>
     </div>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -28,7 +28,7 @@
                         <td class="px-6 py-3 text-gray-500">{{ $tamanho->ordem }}</td>
 
                         <td class="px-4 py-3">
-                            <a href="{{ route('tamanhos.edit', $tamanho) }}"
+                            <a href="{{ route('tamanhos.editar', $tamanho) }}"
                                class="font-medium text-gray-900 hover:text-violet-600">{{ $tamanho->nome }}</a>
                         </td>
 
@@ -37,10 +37,10 @@
                         <td class="px-4 py-3 text-right">
                             @if ($tamanho->variacoes_count === 0)
                                 <x-menu-acoes
-                                    :editar="route('tamanhos.edit', $tamanho)"
-                                    :excluir="route('tamanhos.destroy', $tamanho)" />
+                                    :editar="route('tamanhos.editar', $tamanho)"
+                                    :excluir="route('tamanhos.excluir', $tamanho)" />
                             @else
-                                <x-menu-acoes :editar="route('tamanhos.edit', $tamanho)" />
+                                <x-menu-acoes :editar="route('tamanhos.editar', $tamanho)" />
                             @endif
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
                     <tr>
                         <td colspan="4" class="px-6 py-10 text-center text-gray-500">
                             Nenhum tamanho cadastrado.
-                            <a href="{{ route('tamanhos.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
+                            <a href="{{ route('tamanhos.criar') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                         </td>
                     </tr>
                 @endforelse

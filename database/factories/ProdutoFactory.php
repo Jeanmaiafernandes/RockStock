@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\EnderecoDeEstoque;
 use App\Models\Fornecedor;
-use App\Models\ProdutoCategoria;
-use App\Models\Produto;
-use App\Models\ProdutoStatus;
+use App\Models\Produto\Produto;
+use App\Models\Produto\ProdutoCategoria;
+use App\Models\Produto\ProdutoStatus;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

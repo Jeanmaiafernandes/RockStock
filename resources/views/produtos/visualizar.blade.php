@@ -43,7 +43,7 @@
         <x-page-header :title="$produto->nome" />
 
         <div class="mb-6 flex flex-wrap items-center gap-3">
-            <a href="{{ route('produtos.edit', $produto) }}" class="btn">Editar dados</a>
+            <a href="{{ route('produtos.editar', $produto) }}" class="btn">Editar dados</a>
             <a href="{{ route('produtos.index') }}" class="btn-sec">Voltar</a>
         </div>
 

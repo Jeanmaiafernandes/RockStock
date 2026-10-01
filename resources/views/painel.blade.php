@@ -5,7 +5,7 @@
 @section('conteudo')
 
     @php
-        $ultimosProdutos = $ultimosProdutos ?? \App\Models\Produto::with(['categoria', 'status'])
+        $ultimosProdutos = $ultimosProdutos ?? \App\Models\Produto\Produto::with(['categoria', 'status'])
             ->latest()
             ->take(5)
             ->get();
@@ -23,17 +23,18 @@
         <h2 class="text-sm font-semibold text-gray-800">Ações rápidas</h2>
 
         <div class="mt-4 flex flex-wrap gap-3">
-            <a href="{{ route('pedidos.create') }}" class="btn">Novo pedido</a>
-            <a href="{{ route('produtos.create') }}" class="btn-sec">Novo produto</a>
-            <a href="{{ route('categoriasProduto.create') }}" class="btn-sec">Nova categoria</a>
-            <a href="{{ route('statusProduto.create') }}" class="btn-sec">Novo status</a>
+            <a href="{{ route('pedidos.criar') }}" class="btn">Novo pedido</a>
+            <a href="{{ route('produtos.criar') }}" class="btn-sec">Novo produto</a>
+            <a href="{{ route('categoriasProduto.criar') }}" class="btn-sec">Nova categoria</a>
+            <a href="{{ route('statusProduto.criar') }}" class="btn-sec">Novo status</a>
         </div>
     </div>
     {{-- Últimos produtos --}}
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">
             <h2 class="text-sm font-semibold text-gray-800">Últimos produtos cadastrados</h2>
-            <a href="{{ route('produtos.index') }}" class="text-sm font-medium text-violet-600 hover:underline">Ver todos</a>
+            <a href="{{ route('produtos.index') }}" class="text-sm font-medium text-violet-600 hover:underline">Ver
+                todos</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -51,7 +52,7 @@
                 @forelse ($ultimosProdutos as $produto)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('produtos.edit', $produto) }}"
+                            <a href="{{ route('produtos.editar', $produto) }}"
                                class="font-medium text-gray-900 hover:text-violet-600">{{ $produto->nome }}</a>
                             <p class="font-mono text-xs text-gray-400">{{ $produto->sku }}</p>
                         </td>
@@ -73,7 +74,8 @@
                     <tr>
                         <td colspan="5" class="px-6 py-10 text-center text-gray-500">
                             Nenhum produto cadastrado ainda.
-                            <a href="{{ route('produtos.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
+                            <a href="{{ route('produtos.criar') }}" class="font-medium text-violet-600 hover:underline">Cadastrar
+                                o primeiro</a>
                         </td>
                     </tr>
                 @endforelse
@@ -86,7 +88,8 @@
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">
             <h2 class="text-sm font-semibold text-gray-800">Pedidos recentes</h2>
-            <a href="{{ route('pedidos.index') }}" class="text-sm font-medium text-violet-600 hover:underline">Ver todos</a>
+            <a href="{{ route('pedidos.index') }}" class="text-sm font-medium text-violet-600 hover:underline">Ver
+                todos</a>
         </div>
 
         <div class="overflow-x-auto">
@@ -104,7 +107,7 @@
                 @forelse ($ultimosPedidos as $pedido)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('pedidos.show', $pedido) }}"
+                            <a href="{{ route('pedidos.mostrar', $pedido) }}"
                                class="font-mono text-xs font-medium text-gray-900 hover:text-violet-600">{{ $pedido->codigo }}</a>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ $pedido->destino }}</td>

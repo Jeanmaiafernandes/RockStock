@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Produto;
 
+use App\Models\Fornecedor;
 use Database\Factories\ProdutoFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,8 +15,6 @@ use Illuminate\Support\Str;
 #[UseFactory(ProdutoFactory::class)]
 class Produto extends Model
 {
-    protected $table = 'produtos';
-
     protected $guarded = ['id'];
 
     public function fornecedor(): BelongsTo

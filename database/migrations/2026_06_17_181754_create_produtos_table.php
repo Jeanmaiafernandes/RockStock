@@ -1,11 +1,11 @@
 <?php
 
 use App\Models\Fornecedor;
+use App\Models\Produto\ProdutoCategoria;
+use App\Models\Produto\ProdutoStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\ProdutoCategoria;
-use App\Models\ProdutoStatus;
 
 return new class extends Migration
 {

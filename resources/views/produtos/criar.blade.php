@@ -6,7 +6,7 @@
 
     <x-page-header title="Novo produto" />
 
-    <form method="POST" action="{{ route('produtos.store') }}" class="max-w-3xl space-y-6">
+    <form method="POST" action="{{ route('produtos.salvar') }}" class="max-w-3xl space-y-6">
         @csrf
 
         <section class="card">

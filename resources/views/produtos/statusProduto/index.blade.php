@@ -5,7 +5,7 @@
 @section('conteudo')
 
     <x-page-header title="Status de produto">
-        <a href="{{ route('statusProduto.create') }}" class="btn">Novo status</a>
+        <a href="{{ route('statusProduto.criar') }}" class="btn">Novo status</a>
     </x-page-header>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -23,7 +23,7 @@
                 @forelse ($statusProdutos as $statusProduto)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('statusProduto.edit', $statusProduto) }}"
+                            <a href="{{ route('statusProduto.editar', $statusProduto) }}"
                                class="font-medium text-gray-900 hover:text-violet-600">{{ $statusProduto->nome }}</a>
                         </td>
                         <td class="px-4 py-3">
@@ -38,9 +38,9 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="inline-flex items-center gap-4">
-                                <a href="{{ route('statusProduto.edit', $statusProduto) }}"
+                                <a href="{{ route('statusProduto.editar', $statusProduto) }}"
                                    class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
-                                <x-form.delete :action="route('statusProduto.destroy', $statusProduto)" />
+                                <x-form.delete :action="route('statusProduto.excluir', $statusProduto)" />
                             </div>
                         </td>
                     </tr>
@@ -48,7 +48,7 @@
                     <tr>
                         <td colspan="4" class="px-6 py-10 text-center text-gray-500">
                             Nenhum status cadastrado.
-                            <a href="{{ route('statusProduto.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
+                            <a href="{{ route('statusProduto.criar') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                         </td>
                     </tr>
                 @endforelse

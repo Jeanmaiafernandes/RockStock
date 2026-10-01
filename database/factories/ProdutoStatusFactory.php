@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ProdutoStatus;
+use App\Models\Produto\ProdutoStatus;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

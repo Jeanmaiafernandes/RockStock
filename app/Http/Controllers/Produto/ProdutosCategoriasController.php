@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Produto;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoriasStoreRequest;
 use App\Http\Requests\CategoriasUpdateRequest;
+use App\Models\Produto\ProdutoCategoria;
 use Illuminate\Http\RedirectResponse;
-use App\Models\ProdutoCategoria;
 use Illuminate\View\View;
 
 class ProdutosCategoriasController extends Controller
@@ -17,12 +18,12 @@ class ProdutosCategoriasController extends Controller
         return view('produtos.categoriasProduto.index', compact('categorias'));
     }
 
-    public function create(): View
+    public function criar(): View
     {
         return view('produtos.categoriasProduto.criar');
     }
 
-    public function store(CategoriasStoreRequest $request): RedirectResponse
+    public function salvar(CategoriasStoreRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -35,12 +36,12 @@ class ProdutosCategoriasController extends Controller
             ->with('successo', 'Categoria cadastrada com sucesso!');
     }
 
-    public function edit(ProdutoCategoria $categoria): View
+    public function editar(ProdutoCategoria $categoria): View
     {
         return view('produtos.categoriasProduto.editar', compact('categoria'));
     }
 
-    public function update(CategoriasUpdateRequest $request, ProdutoCategoria $categoria): RedirectResponse
+    public function atualizar(CategoriasUpdateRequest $request, ProdutoCategoria $categoria): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -52,7 +53,7 @@ class ProdutosCategoriasController extends Controller
         ->with('status', 'Categoria atualizada com sucesso!');
     }
 
-    public function destroy(ProdutoCategoria $categoria): RedirectResponse
+    public function excluir(ProdutoCategoria $categoria): RedirectResponse
     {
         if($categoria->produtos()->exists()) {
             return redirect()->route('categoriasProduto.index')

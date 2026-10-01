@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Produto;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Produtos\ProdutosVariacoesStoreRequest;
 use App\Http\Requests\Produtos\ProdutosVariacoesUpdateRequest;
-use App\Models\Produto;
-use App\Models\ProdutoVariacao;
+use App\Models\Produto\Produto;
+use App\Models\Produto\ProdutoVariacao;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class ProdutosVariacoesController extends Controller
 {
-    public function store(ProdutosVariacoesStoreRequest $request, Produto $produto): RedirectResponse
+    /**
+     * @throws \Throwable
+     */
+    public function salvar(ProdutosVariacoesStoreRequest $request, Produto $produto): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -20,15 +24,15 @@ class ProdutosVariacoesController extends Controller
         });
 
         if ($criadas === 0) {
-            return redirect()->route('produtos.show', $produto)
+            return redirect()->route('produtos.mostrar', $produto)
                 ->with('aviso', 'Nenhum SKU novo: todas as combinações já existiam.');
         }
 
-        return redirect()->route('produtos.show', $produto)
+        return redirect()->route('produtos.mostrar', $produto)
             ->with('sucesso', "{$criadas} SKU(s) adicionado(s) à grade.");
     }
 
-    public function update(ProdutosVariacoesUpdateRequest $request, ProdutoVariacao $variacao): RedirectResponse
+    public function atualizar(ProdutosVariacoesUpdateRequest $request, ProdutoVariacao $variacao): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -36,7 +40,7 @@ class ProdutosVariacoesController extends Controller
         $variacao->ativo = $dados['ativo'];
         $variacao->save();
 
-        return redirect()->route('produtos.show', $variacao->produto_id)
+        return redirect()->route('produtos.mostrar', $variacao->produto_id)
             ->with('sucesso', "Variação {$variacao->sku} atualizada.");
     }
 }

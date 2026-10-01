@@ -7,12 +7,12 @@
     <x-page-header :title="'Editar: '.$categoria->nome" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('categoriasProduto.update', $categoria) }}" method="POST" class="space-y-5">
+        <form action="{{ route('categoriasProduto.atualizar', $categoria) }}" method="POST" class="space-y-5">
             @csrf
             @method('PATCH')
 
             <x-form.field label="Nome" name="nome">
-                <x-form.input name="nome" :value="old('nome', $categoria->nome)" />
+                <x-form.input name="nome" maxlength="50" :value="old('nome', $categoria->nome)" />
             </x-form.field>
 
             <x-form.field name="ativo">
