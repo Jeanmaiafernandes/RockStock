@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class EntrarRequest extends FormRequest
 {
@@ -14,8 +15,8 @@ class EntrarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'senha' => ['required', 'string'],
+            'email' => ['required', 'email', 'max:255'],
+            'senha' => ['required', 'string', Password::min(2)->max(255)],
         ];
     }
 

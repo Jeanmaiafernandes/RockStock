@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Usuario;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class AtualizarSenhaRequest extends FormRequest
 {
@@ -17,7 +18,7 @@ class AtualizarSenhaRequest extends FormRequest
     {
         return [
             'senha_atual' => ['required', 'current_password'],
-            'senha'       => ['required', 'string', 'min:8', 'confirmed'],
+            'senha'       => ['required', 'string', Password::min(2)->max(255), 'confirmed'],
         ];
     }
 

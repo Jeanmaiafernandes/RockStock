@@ -1,7 +1,5 @@
 @extends('usuarios.layout')
 
-@section('titulo', 'Entrar')
-
 @section('conteudo')
     <h1 class="mb-6 text-2xl font-semibold">Entrar</h1>
 
@@ -10,16 +8,15 @@
 
         <div>
             <label for="email" class="mb-1 block text-sm font-medium">E-mail</label>
-            <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus
+            <input id="email" name="email" type="email" maxlength="255" value="{{ old('email')}}" required autofocus
                    class="w-full rounded border border-stone-300 px-3 py-2">
             @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label for="senha" class="mb-1 block text-sm font-medium">Senha</label>
-            <input id="senha" name="senha" type="password" required autocomplete="current-password"
+            <input id="senha" name="senha" type="password" maxlength="10" required autocomplete="current-password"
                    class="w-full rounded border border-stone-300 px-3 py-2">
-            @error('senha') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <label class="flex items-center gap-2 text-sm">

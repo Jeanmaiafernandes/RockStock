@@ -40,14 +40,14 @@
 
         <div>
             <label for="senha_atual" class="mb-1 block text-sm font-medium">Senha atual</label>
-            <input id="senha_atual" name="senha_atual" type="password" required autocomplete="current-password"
+            <input id="senha_atual" name="senha_atual" type="password" maxlength="255" required autocomplete="current-password"
                    class="w-full rounded border border-stone-300 px-3 py-2">
             @error('senha_atual', 'senha') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div>
             <label for="senha" class="mb-1 block text-sm font-medium">Nova senha</label>
-            <input id="senha" name="senha" type="password" required autocomplete="new-password"
+            <input id="senha" name="senha" type="password" maxlength="255" required autocomplete="new-password"
                    class="w-full rounded border border-stone-300 px-3 py-2">
             @error('senha', 'senha') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
