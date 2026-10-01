@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EnderecoDeEstoqueStoreRequest;
-use App\Http\Requests\EnderecoDeEstoqueUpdateRequest;
+use App\Http\Requests\EnderecoDeEstoque\EnderecoDeEstoqueStoreRequest;
+use App\Http\Requests\EnderecoDeEstoque\EnderecoDeEstoqueUpdateRequest;
 use App\Models\EnderecoDeEstoque;
+use App\Models\LocalEstoque;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -12,65 +13,74 @@ class EnderecoDeEstoqueController extends Controller
 {
     public function index(): View
     {
-        $enderecoDeEstoque = EnderecoDeEstoque::query()
-            ->select(['id', 'codigo', 'tipo', 'bloqueado'])
-            ->paginate(10);
+        $enderecos = EnderecoDeEstoque::query()
+            ->with('local')
+            ->orderBy('local_estoque_id')
+            ->orderBy('codigo')
+            ->paginate(15);
 
-        return view('enderecoDeEstoque.index', compact('enderecoDeEstoque'));
-    }
-
-    public function create(): View
-    {
-        return view('enderecoDeEstoque.criar', [
-            'tipos' => EnderecoDeEstoque::TIPOS,
+        return view('enderecoDeEstoque.index', [
+            'enderecos' => $enderecos,
+            'tipos'     => EnderecoDeEstoque::TIPOS,
         ]);
     }
 
-    public function store(EnderecoDeEstoqueStoreRequest $request): RedirectResponse
+    public function criar(): View
+    {
+        return view('enderecoDeEstoque.criar', [
+            'locais' => LocalEstoque::where('ativo', true)->orderBy('nome')->pluck('nome', 'id'),
+            'tipos'  => EnderecoDeEstoque::TIPOS,
+        ]);
+    }
+
+    public function salvar(EnderecoDeEstoqueStoreRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
-        $enderecoDeEstoque = new EnderecoDeEstoque();
-        $enderecoDeEstoque->codigo = $dados['codigo'];
+        $endereco = new EnderecoDeEstoque();
+        $endereco->local_estoque_id = $dados['local_estoque_id'];
+        $endereco->codigo = strtoupper($dados['codigo']);
+        $endereco->tipo = $dados['tipo'];
+        $endereco->ativo = $dados['ativo'];
+        $endereco->save();
+
+        return redirect()->route('enderecoDeEstoque.index')
+            ->with('sucesso', "Endereço {$endereco->codigo} cadastrado.");
+    }
+
+    public function editar(EnderecoDeEstoque $enderecoDeEstoque): View
+    {
+        return view('enderecoDeEstoque.editar', [
+            'enderecoDeEstoque' => $enderecoDeEstoque,
+            'locais'            => LocalEstoque::orderBy('nome')->pluck('nome', 'id'),
+            'tipos'             => EnderecoDeEstoque::TIPOS,
+        ]);
+    }
+
+    public function atualizar(EnderecoDeEstoqueUpdateRequest $request, EnderecoDeEstoque $enderecoDeEstoque): RedirectResponse
+    {
+        $dados = $request->validated();
+
+        $enderecoDeEstoque->local_estoque_id = $dados['local_estoque_id'];
+        $enderecoDeEstoque->codigo = strtoupper($dados['codigo']);
         $enderecoDeEstoque->tipo = $dados['tipo'];
-        $enderecoDeEstoque->bloqueado = $dados['bloqueado'];
+        $enderecoDeEstoque->ativo = $dados['ativo'];
         $enderecoDeEstoque->save();
 
-        return redirect()->route('enderecoDeEstoque.index',
-            $enderecoDeEstoque) ->with('status', 'Endereco de estoque cadastrado com sucesso!');
+        return redirect()->route('enderecoDeEstoque.index')
+            ->with('sucesso', "Endereço {$enderecoDeEstoque->codigo} atualizado.");
     }
 
-    public function edit(EnderecoDeEstoque $enderecoDeEstoque): View
+    public function excluir(EnderecoDeEstoque $enderecoDeEstoque): RedirectResponse
     {
-        return view('enderecoDeEstoque.editar',
-        ['enderecoDeEstoque' => $enderecoDeEstoque,
-            'tipos' => EnderecoDeEstoque::TIPOS,
-            ]);
-    }
-
-    public function update(EnderecoDeEstoqueUpdateRequest $request,
-        EnderecoDeEstoque $enderecoDeEstoque): RedirectResponse
-    {
-        $dados = $request->validated();
-
-        $enderecoDeEstoque->codigo = $dados['codigo'];
-        $enderecoDeEstoque->tipo = $dados['tipo'];
-        $enderecoDeEstoque->bloqueado = $dados['bloqueado'];
-        $enderecoDeEstoque->update();
-
-        return redirect()->route('enderecoDeEstoque.index',
-            $enderecoDeEstoque)->with('status', 'Endereco de estoque editado com sucesso!');
-    }
-
-    public function destroy(EnderecoDeEstoque $enderecoDeEstoque): RedirectResponse
-    {
-        if ($enderecoDeEstoque->produtos()->exists()) {
+        if ($enderecoDeEstoque->temMovimentacoes()) {
             return redirect()->route('enderecoDeEstoque.index')
-                ->with('erro', 'Não é possivel excluir: há produtos vinculados');
+                ->with('erro', "O endereço {$enderecoDeEstoque->codigo} já tem movimentações. Desative-o em vez de excluir.");
         }
 
         $enderecoDeEstoque->delete();
-        return back()->with('sucesso', 'Endereço de Estoque apagado com sucesso!')
-            ->with('status');
+
+        return redirect()->route('enderecoDeEstoque.index')
+            ->with('sucesso', "Endereço {$enderecoDeEstoque->codigo} excluído.");
     }
 }

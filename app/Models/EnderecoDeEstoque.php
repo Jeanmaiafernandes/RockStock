@@ -3,27 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Table;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Table(name: 'enderecos_de_estoque')]
+#[Table('enderecos_de_estoque')]
 class EnderecoDeEstoque extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
-    protected $casts = ['bloqueado' => 'boolean'];
+    protected $casts = [
+        'ativo' => 'boolean',
+    ];
 
-    public function produtos(): HasMany
+   public const TIPOS = [
+        'doca'        => 'Doca',
+        'armazenagem' => 'Armazenagem',
+        'bloqueado'   => 'Bloqueado',
+        'avaria'      => 'Avaria',
+        'devolucao'   => 'Devolução',
+    ];
+
+    public function local(): BelongsTo
     {
-        return $this->hasMany(Produto::class, 'endereco_de_estoque_id');
+        return $this->belongsTo(LocalEstoque::class, 'local_estoque_id');
     }
 
-    public const array TIPOS = [
-            'arara',
-            'arquivado',
-            'restauro'
-        ];
+    // Verifica se o endereço já aparece em alguma movimentação
+    public function temMovimentacoes(): bool
+    {
+        return MovimentacaoEstoque::where('endereco_origem_id', $this->id)
+            ->orWhere('endereco_destino_id', $this->id)
+            ->exists();
+    }
 }

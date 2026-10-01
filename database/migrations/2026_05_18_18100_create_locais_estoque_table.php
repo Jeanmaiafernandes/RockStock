@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('locais_estoque', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
-            $table->enum('tipo', ['cd', 'loja', 'transito']);
+            $table->enum('tipo', ['cd', 'loja']);
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
