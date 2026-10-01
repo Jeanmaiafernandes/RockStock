@@ -5,7 +5,7 @@
 @section('conteudo')
 
     <x-page-header title="Fornecedores">
-        <a href="{{ route('fornecedores.create') }}" class="btn">Novo fornecedor</a>
+        <a href="{{ route('fornecedores.criar') }}" class="btn">Novo fornecedor</a>
     </x-page-header>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -23,7 +23,7 @@
                 @forelse ($fornecedores as $fornecedor)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('fornecedores.edit', $fornecedor) }}"
+                            <a href="{{ route('fornecedores.editar', $fornecedor) }}"
                                class="font-medium text-gray-900 hover:text-violet-600">{{ $fornecedor->nome }}</a>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ $fornecedor->contato ?? '—' }}</td>
@@ -34,9 +34,9 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="inline-flex items-center gap-4">
-                                <a href="{{ route('fornecedores.edit', $fornecedor) }}"
+                                <a href="{{ route('fornecedores.editar', $fornecedor) }}"
                                    class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
-                                <x-form.delete :action="route('fornecedores.destroy', $fornecedor)" />
+                                <x-form.delete :action="route('fornecedores.excluir', $fornecedor)" />
                             </div>
                         </td>
                     </tr>
@@ -44,7 +44,7 @@
                     <tr>
                         <td colspan="4" class="px-6 py-10 text-center text-gray-500">
                             Nenhum fornecedor cadastrado.
-                            <a href="{{ route('fornecedores.create') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
+                            <a href="{{ route('fornecedores.criar') }}" class="font-medium text-violet-600 hover:underline">Cadastrar o primeiro</a>
                         </td>
                     </tr>
                 @endforelse

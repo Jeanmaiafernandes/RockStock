@@ -7,16 +7,16 @@
     <x-page-header :title="'Editar: '.$fornecedor->nome" />
 
     <div class="card max-w-2xl">
-        <form action="{{ route('fornecedores.update', $fornecedor) }}" method="POST" class="space-y-5">
+        <form action="{{ route('fornecedores.atualizar', $fornecedor) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
 
             <x-form.field label="Nome" name="nome">
-                <x-form.input name="nome" :value="old('nome', $fornecedor->nome)" />
+                <x-form.input name="nome" :value="old('nome', $fornecedor->nome)" max="100" />
             </x-form.field>
 
             <x-form.field label="Contato" name="contato" hint="Telefone, e-mail ou responsável.">
-                <x-form.input name="contato" :value="old('contato', $fornecedor->contato)" />
+                <x-form.input name="contato" :value="old('contato', $fornecedor->contato)" maxlength="50" />
             </x-form.field>
 
             <x-form.field name="ativo">

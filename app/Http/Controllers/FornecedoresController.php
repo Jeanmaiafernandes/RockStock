@@ -18,12 +18,12 @@ class FornecedoresController extends Controller
         return view('fornecedores.index', compact('fornecedores'));
     }
 
-    public function create(): View
+    public function criar(): View
     {
         return view('fornecedores.criar');
     }
 
-    public function store(FornecedoresStoreRequest $request): RedirectResponse
+    public function salvar(FornecedoresStoreRequest $request): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -37,13 +37,13 @@ class FornecedoresController extends Controller
             ->with('successo', 'Fornecedor cadastrado com sucesso!');
     }
 
-    public function edit(Fornecedor $fornecedor): View
+    public function editar(Fornecedor $fornecedor): View
     {
         return view('fornecedores.editar',
             ['fornecedor' => $fornecedor]);
     }
 
-    public function update(FornecedoresUpdateRequest $request, Fornecedor $fornecedor): RedirectResponse
+    public function atualizar(FornecedoresUpdateRequest $request, Fornecedor $fornecedor): RedirectResponse
     {
         $dados = $request->validated();
 
@@ -56,7 +56,7 @@ class FornecedoresController extends Controller
             ->with('status', 'Fornecedor atualizado com sucesso!');
     }
 
-    public function destroy(Fornecedor $fornecedor): RedirectResponse
+    public function excluir(Fornecedor $fornecedor): RedirectResponse
     {
         if($fornecedor->produtos()->exists()){
             return redirect()->route('fornecedores.index')
