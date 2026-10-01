@@ -13,7 +13,7 @@
     @endphp
 
     <x-page-header title="Pedidos">
-        <a href="{{ route('pedidos.create') }}" class="btn">Novo pedido</a>
+        <a href="{{ route('pedidos.criar') }}" class="btn">Novo pedido</a>
     </x-page-header>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -34,7 +34,7 @@
                     @php $valorStatus = $pedido->statusPedido->value ?? $pedido->statusPedido; @endphp
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3">
-                            <a href="{{ route('pedidos.show', $pedido) }}"
+                            <a href="{{ route('pedidos.mostrar', $pedido) }}"
                                class="font-mono text-xs font-medium text-gray-900 hover:text-violet-600">{{ $pedido->codigo }}</a>
                         </td>
                         <td class="px-4 py-3 text-gray-500">{{ $pedido->destino }}</td>
@@ -45,9 +45,9 @@
                         </td>
                         <td class="px-4 py-3 text-right">
                             <div class="inline-flex items-center gap-4">
-                                <a href="{{ route('pedidos.show', $pedido) }}" class="text-sm font-medium text-violet-600 hover:underline">Ver</a>
-                                <a href="{{ route('pedidos.edit', $pedido) }}" class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
-                                <x-form.delete :action="route('pedidos.destroy', $pedido)" />
+                                <a href="{{ route('pedidos.mostrar', $pedido) }}" class="text-sm font-medium text-violet-600 hover:underline">Ver</a>
+                                <a href="{{ route('pedidos.editar', $pedido) }}" class="text-sm font-medium text-violet-600 hover:underline">Editar</a>
+                                <x-form.delete :action="route('pedidos.excluir', $pedido)" />
                             </div>
                         </td>
                     </tr>

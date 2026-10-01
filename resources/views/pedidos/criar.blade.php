@@ -51,7 +51,7 @@
     <x-page-header title="Novo pedido" />
 
     <div class="card max-w-3xl">
-        <form action="{{ route('pedidos.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('pedidos.salvar') }}" method="POST" class="space-y-5">
             @csrf
 
             @if ($errors->any())

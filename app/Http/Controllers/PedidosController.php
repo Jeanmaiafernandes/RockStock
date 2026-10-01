@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PedidosStoreRequest;
 use App\Http\Requests\PedidosUpdateRequest;
 use App\Models\Pedido;
-use App\Models\Produto;
+use App\Models\Produto\Produto;
 use App\Models\Usuario;
 use App\Services\Services\PedidoService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Throwable;
 
 class PedidosController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $pedidos = Pedido::with('usuario')
         ->withCount('itens')
@@ -25,7 +24,7 @@ class PedidosController extends Controller
         return view('pedidos.index', compact('pedidos'));
     }
 
-    public function create()
+    public function criar(): View
     {
         return view('pedidos.criar', [
             'produtos' => Produto::query()->pluck('nome', 'id'),
@@ -35,21 +34,17 @@ class PedidosController extends Controller
     /**
      * @throws Throwable
      */
-    public function store(PedidosStoreRequest $request, PedidoService $pedidoService): RedirectResponse
+    public function salvar(PedidosStoreRequest $request, PedidoService $pedidoService): RedirectResponse
     {
         $dados = $request->validated();
 
         $pedido = $pedidoService->criarPedido($dados);
 
-        if (! Gate::allows('criarPedido', $pedido)) {
-            abort(403);
-        }
-
-        return redirect()->route('pedidos.show', $pedido)
+        return redirect()->route('pedidos.mostrar', $pedido)
             ->with('successo', 'Pedido criado com sucesso!');
     }
 
-    public function show(Pedido $pedido): View
+    public function mostrar(Pedido $pedido): View
     {
         $pedido->load('usuario', 'itens.produto');
 
@@ -57,7 +52,7 @@ class PedidosController extends Controller
             compact('pedido'));
     }
 
-    public function edit(Pedido $pedido)
+    public function editar(Pedido $pedido): View
     {
         $pedido->load('itens');
 
@@ -71,7 +66,7 @@ class PedidosController extends Controller
     /**
      * @throws Throwable
      */
-    public function update(PedidosUpdateRequest $request, PedidoService $pedidoService ,Pedido $pedido)
+    public function atualizar(PedidosUpdateRequest $request, PedidoService $pedidoService ,Pedido $pedido)
     {
         $dados = $request->validated();
 
@@ -81,10 +76,10 @@ class PedidosController extends Controller
             ->with('status', 'Pedido atualizado com sucesso!');
     }
 
-    public function destroy(Pedido $pedido)
+    public function excluir(Pedido $pedido): RedirectResponse
     {
         $pedido->delete();
-        return back()->with('sucesso', 'Pedido excluído.')
+        return redirect()->back()->with('sucesso', 'Pedido excluído.')
             ->with('status');
     }
 }

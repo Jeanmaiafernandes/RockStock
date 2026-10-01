@@ -74,7 +74,7 @@
     <x-page-header :title="'Editar pedido '.$pedido->codigo" />
 
     <div class="card max-w-3xl">
-        <form action="{{ route('pedidos.update', $pedido) }}" method="POST" class="space-y-5">
+        <form action="{{ route('pedidos.atualizar', $pedido) }}" method="POST" class="space-y-5">
             @csrf
             @method('PATCH')
 

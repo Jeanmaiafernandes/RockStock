@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Pedido;
-use App\Models\Produto;
+use App\Models\Produto\Produto;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

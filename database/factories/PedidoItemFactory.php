@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Pedido;
 use App\Models\PedidoItem;
-use App\Models\Produto;
+use App\Models\Produto\Produto;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

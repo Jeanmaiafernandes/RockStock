@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\PedidoFactory;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+#[Table(name: 'pedidos')]
 #[UseFactory(PedidoFactory::class)]
 class Pedido extends Model
 {

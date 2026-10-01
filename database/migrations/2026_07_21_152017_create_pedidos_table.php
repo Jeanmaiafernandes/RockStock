@@ -12,8 +12,12 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 30);
-            $table->enum('statusPedido', ['rascunho', 'confirmado',
-                'cancelado'])->default('rascunho');
+
+            $table->enum('statusPedido', [
+                    'rascunho',
+                    'confirmado',
+                    'cancelado'])->default('rascunho');
+
             $table->string('destino');
             $table->string('observacao')->nullable();
 

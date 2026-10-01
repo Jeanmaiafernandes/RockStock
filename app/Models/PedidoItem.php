@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Produto\Produto;
 use Database\Factories\PedidoItemFactory;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;

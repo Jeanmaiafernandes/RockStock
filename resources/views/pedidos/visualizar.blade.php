@@ -14,7 +14,7 @@
     @endphp
 
     <x-page-header :title="'Pedido '.$pedido->codigo">
-        <a href="{{ route('pedidos.edit', $pedido) }}" class="btn">Editar</a>
+        <a href="{{ route('pedidos.editar', $pedido) }}" class="btn">Editar</a>
         <a href="{{ route('pedidos.index') }}" class="btn-sec">Voltar</a>
     </x-page-header>
 
